@@ -1,5 +1,6 @@
 import * as ChildProcess from "child_process";
 import "n-ext";
+import { SecurityCoreConfiguration } from "./security-core-configuration";
 
 export class SymmetricEncryption
 {
@@ -12,8 +13,7 @@ export class SymmetricEncryption
         {
 
             ChildProcess.exec(
-                // "dotnet ./src/security-core/bin/Debug/netcoreapp2.0/security-core.dll SymmetricEncryption.GenerateKey",
-                "dotnet ./src/security-core/bin/Release/netcoreapp2.0/publish/security-core.dll SymmetricEncryption.GenerateKey",
+                `dotnet ${SecurityCoreConfiguration.coreExePath} SymmetricEncryption.GenerateKey`,
                 
                 (error, stdout, stderr) =>
                 {

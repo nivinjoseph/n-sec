@@ -18,7 +18,7 @@
     "test": "mocha --reporter spec --ui tdd --require ts-node/register './test/**/*.test.js' || true",
     "pretest-ci": "npm run pretest",
     "test-ci": "mocha --reporter spec --ui tdd --require ts-node/register './test/**/*.test.js'",
-    "pregit-publish": "npm run ts-build-dist && git add . && git commit -m 'preparing to publish new version'",
+    "pregit-publish": "npm run dotnet-publish && npm run ts-build-dist && git add . && git commit -m 'preparing to publish new version'",
     "git-publish": "npm version patch",
     "postgit-publish": "git push"
   },
