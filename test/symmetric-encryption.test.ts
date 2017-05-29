@@ -1,5 +1,5 @@
 import * as assert from "assert";
-import { SymmetricEncryption } from "./../src/symmetric-encryption";
+import { SymmetricEncryption } from "./../src/index";
 
 suite("SymmetricEncryption", () =>
 {
