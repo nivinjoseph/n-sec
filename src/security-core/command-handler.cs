@@ -1,6 +1,7 @@
 using System;
 using System.Linq;
 using System.Reflection;
+using System.Text;
 
 namespace SecurityCore
 {
@@ -19,12 +20,13 @@ namespace SecurityCore
         }
         
         
-        public object Handle()
+        public string Handle()
         {
             var type = Assembly.GetExecutingAssembly().GetTypes().First(t => t.Name == this._commandClass);
             var method = type.GetMethods().First(t => t.Name == this._commandMethod);
             
-            return method.Invoke(null, this._commandArgs);
+            var result = method.Invoke(null, this._commandArgs);
+            return result.ToString();
         }
         
         
@@ -36,7 +38,7 @@ namespace SecurityCore
             {
                 var inputSplitted = this.Split(input, "::");
                 input = inputSplitted[0];
-                var arguments = inputSplitted[1];
+                var arguments = Encoding.UTF8.GetString(Convert.FromBase64String(inputSplitted[1]));
                 this._commandArgs = arguments.Contains(",") ? this.Split(arguments, ",") : new []{arguments};
             }
             

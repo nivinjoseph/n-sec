@@ -1,11 +1,38 @@
 using System;
 using System.Security.Cryptography;
+using System.Text;
 
 namespace SecurityCore
 {
     internal static class DigitalSignature
     {
-        public static string Create(string keyPair, byte[] value)
+        public static string Sign(string keyPair, string value)
+        {
+            if (string.IsNullOrWhiteSpace(keyPair))
+                throw new ArgumentNullException("keyPair");
+
+            if (value == null)
+                throw new ArgumentNullException("value");
+
+            return CreateInternal(keyPair, Encoding.UTF8.GetBytes(value));
+        }
+        
+        public static bool Verify(string publicKey, string value, string signature)
+        {
+            if (string.IsNullOrWhiteSpace(publicKey))
+                throw new ArgumentNullException("publicKey");
+
+            if (value == null)
+                throw new ArgumentNullException("value");
+
+            if (string.IsNullOrWhiteSpace(signature))
+                throw new ArgumentNullException("signature");
+
+            return VerifyInternal(publicKey, Encoding.UTF8.GetBytes(value), signature);
+        }
+        
+        
+        private static string CreateInternal(string keyPair, byte[] value)
         {
             if(string.IsNullOrWhiteSpace(keyPair))
                 throw new ArgumentNullException("keyPair");
@@ -33,8 +60,8 @@ namespace SecurityCore
                 throw new CryptoException("Invalid key.", ex);
             }
         }
-
-        public static bool Verify(string publicKey, byte[] value, string signature)
+        
+        private static bool VerifyInternal(string publicKey, byte[] value, string signature)
         {
             if(string.IsNullOrWhiteSpace(publicKey))
                 throw new ArgumentNullException("publicKey");

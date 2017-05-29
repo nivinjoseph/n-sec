@@ -6,15 +6,7 @@ namespace SecurityCore
 {
     internal static class Hmac
     {
-        public static string GenerateKey()
-        {
-            var rng = new RNGCryptoServiceProvider();
-            var bytes = new byte[32];
-            rng.GetBytes(bytes);
-            return CryptoHelpers.ToHex(bytes);
-        }
-
-        public static string Hash(string key, string value)
+        public static string Create(string key, string value)
         {
             if (string.IsNullOrWhiteSpace(key))
                 throw new ArgumentNullException("key");

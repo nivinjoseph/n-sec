@@ -14,7 +14,7 @@
     "ts-build-dist": "tsc -p ./dist",
     "clean-src": "find ./src -name '*.js' -delete -o -name '*.map' -delete",
     "clean-test": "find ./test -name '*.js' -delete -o -name '*.map' -delete",
-    "pretest": "npm run ts-build",
+    "pretest": "npm run dotnet-build && npm run ts-build",
     "test": "mocha --reporter spec --ui tdd --require ts-node/register './test/**/*.test.js' || true",
     "pretest-ci": "npm run pretest",
     "test-ci": "mocha --reporter spec --ui tdd --require ts-node/register './test/**/*.test.js'",

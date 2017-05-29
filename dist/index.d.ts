@@ -1,2 +1,7 @@
 import { SymmetricEncryption } from "./symmetric-encryption";
-export { SymmetricEncryption };
+import { Hmac } from "./hmac";
+import { Hash } from "./hash";
+import { DigitalSignature } from "./digital-signature";
+import { AsymmetricEncryption } from "./asymmetric-encryption";
+import { CryptoException } from "./crypto-exception";
+export { SymmetricEncryption, Hmac, Hash, DigitalSignature, AsymmetricEncryption, CryptoException };
