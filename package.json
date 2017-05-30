@@ -5,6 +5,7 @@
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
   "scripts": {
+    "dotnet-restore": "dotnet restore ./src/security-core",
     "dotnet-build": "dotnet build ./src/security-core",
     "predotnet-run": "npm run dotnet-build",
     "dotnet-run": "dotnet ./src/security-core/bin/Debug/netcoreapp2.0/security-core.dll",
