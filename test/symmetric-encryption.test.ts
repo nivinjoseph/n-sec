@@ -163,7 +163,7 @@ suite("SymmetricEncryption", () =>
             assert.ok(false);
         });
         
-        test.skip("encrypt with invalid key as empty string throws CryptoException", async () =>
+        test("encrypt with invalid key as empty string throws CryptoException", async () =>
         {
             try
             {
