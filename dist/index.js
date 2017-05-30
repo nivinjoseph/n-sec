@@ -12,4 +12,6 @@ const asymmetric_encryption_1 = require("./asymmetric-encryption");
 exports.AsymmetricEncryption = asymmetric_encryption_1.AsymmetricEncryption;
 const crypto_exception_1 = require("./crypto-exception");
 exports.CryptoException = crypto_exception_1.CryptoException;
+const uuid_1 = require("./uuid");
+exports.Uuid = uuid_1.Uuid;
 //# sourceMappingURL=index.js.map
