@@ -4,7 +4,7 @@ const uuid = require("uuid");
 // public
 class Uuid {
     constructor() { }
-    static Create() {
+    static create() {
         return uuid.v4();
     }
 }

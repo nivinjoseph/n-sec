@@ -7,7 +7,7 @@ export class Uuid
     private constructor() { }
     
     
-    public static Create(): string
+    public static create(): string
     {
         return uuid.v4();
     }
