@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using System.Text;
 
 namespace SecurityCore
 {
@@ -16,16 +17,24 @@ namespace SecurityCore
             }
             catch (Exception ex)
             {
-                Console.Error.Write(ex.Message);
+                Console.Error.Write(GetFullDescription(ex));
             }
         }
         
-        // private static void Log(string key, string value)
-        // {
-        //     Console.WriteLine($"{key} => {value}");
-        // }
+        public static string GetFullDescription(Exception exception)
+        {
+            var sb = new StringBuilder();
+            sb.AppendLine(string.Format("{0}: {1}", exception.GetType().Name, exception.Message));
+            sb.AppendLine(exception.StackTrace);
+            
+            while (exception.InnerException != null)
+            {
+                exception = exception.InnerException;
+                sb.AppendLine(string.Format("INNER {0}: {1}", exception.GetType().Name, exception.Message));
+                sb.AppendLine(exception.StackTrace);
+            }
+
+            return sb.ToString();
+        }
     }
 }
-
-// SymmetricEncryption.GenerateKey::void
-// SymmetricEncryption.Encrypt::key,value

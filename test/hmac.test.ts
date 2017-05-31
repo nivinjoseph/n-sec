@@ -1,7 +1,7 @@
-import * as assert from "assert";
+import * as Assert from "assert";
 import { SecurityCoreConfiguration } from "./../src/security-core-configuration";
 import { Hmac, SymmetricEncryption } from "./../src/index";
-import { CryptoException } from "./../src/crypto-exception";
+// import { CryptoException } from "./../src/crypto-exception";
 
 suite("Hmac", () =>
 {
@@ -12,102 +12,147 @@ suite("Hmac", () =>
     
     suite("create", () =>
     {
-        test("should create a Hmac for a given value", async () =>
+        test("should return string value that is not null, empty, whitespace or same as the key or input", async () =>
         {
             let key = await SymmetricEncryption.generateKey();
-            let hmac = await Hmac.create(key, "some-string");
-            assert.ok(hmac !== null && !hmac.isEmptyOrWhiteSpace());
-            assert.notStrictEqual(hmac, "some-string");
+            let value = "hello world";
+            let hmac = await Hmac.create(key, value);
+            Assert.ok(hmac !== null && !hmac.isEmptyOrWhiteSpace());
+            Assert.notStrictEqual(hmac, key);
+            Assert.notStrictEqual(hmac, value);
         });
         
-        test("should create same Hmacs for a given value and key", async () =>
+        test("multiple invocations with the same key and value must return the same output", async () =>
         {
             let key = await SymmetricEncryption.generateKey();
-            let hmac1 = await Hmac.create(key, "some-string");
-            let hmac2 = await Hmac.create(key, "some-string");
-            assert.ok(hmac1 !== null && !hmac1.isEmptyOrWhiteSpace());
-            assert.ok(hmac2 !== null && !hmac2.isEmptyOrWhiteSpace());
-            assert.notStrictEqual(hmac1, "some-string");
-            assert.notStrictEqual(hmac2, "some-string");
-            assert.strictEqual(hmac1, hmac2);
+            let value = "hello world";
+            let hmac1 = await Hmac.create(key, value);
+            let hmac2 = await Hmac.create(key, value);
+            Assert.strictEqual(hmac1, hmac2);
         });
         
-        test("should throw CryptoException when key is null", async () =>
+        test("multiple invocations with different keys and different values must return different outputs", async () =>
         {
-            try
-            {
-                await Hmac.create(null, "some-string");
-            }
-            catch (exception)
-            {
-                assert.ok(exception instanceof CryptoException);
-                assert.strictEqual(exception.message, "Parameter count mismatch.");
-                return;
-            }
-            assert.ok(false);
+            let key1 = await SymmetricEncryption.generateKey();
+            let value1 = "hello world";
+            let hmac1 = await Hmac.create(key1, value1);
+            
+            let key2 = await SymmetricEncryption.generateKey();
+            let value2 = "goodbye world";
+            let hmac2 = await Hmac.create(key2, value2);
+            Assert.notStrictEqual(hmac1, hmac2);
         });
         
-        test("should throw CryptoException when value is null", async () =>
+        test("multiple invocations with the same key and different values must return different outputs", async () =>
         {
-            try
-            {
-                let key = await SymmetricEncryption.generateKey();
-                await Hmac.create(key, null);
-            }
-            catch (exception)
-            {
-                assert.ok(exception instanceof CryptoException);
-                assert.strictEqual(exception.message, "Parameter count mismatch.");
-                return;
-            }
-            assert.ok(false);
+            let key = await SymmetricEncryption.generateKey();
+            let value1 = "hello world";
+            let value2 = "goodbye world";
+            let hmac1 = await Hmac.create(key, value1);
+            let hmac2 = await Hmac.create(key, value2);
+            Assert.notStrictEqual(hmac1, hmac2);
         });
         
-        test("should throw CryptoException when key is undefined", async () =>
+        test("multiple invocations with different keys and the same value must return different outputs", async () =>
         {
-            try
-            {
-                await Hmac.create(undefined, "some-string");
-            }
-            catch (exception)
-            {
-                assert.ok(exception instanceof CryptoException);
-                assert.strictEqual(exception.message, "Parameter count mismatch.");
-                return;
-            }
-            assert.ok(false);
+            let key1 = await SymmetricEncryption.generateKey();
+            let key2 = await SymmetricEncryption.generateKey();
+            let value = "hello world";
+            let hmac1 = await Hmac.create(key1, value);
+            let hmac2 = await Hmac.create(key2, value);
+            Assert.notStrictEqual(hmac1, hmac2);
         });
+        
+        
+        
+        // test("should create same Hmacs for a given value and key", async () =>
+        // {
+        //     let key = await SymmetricEncryption.generateKey();
+        //     let hmac1 = await Hmac.create(key, "some-string");
+        //     let hmac2 = await Hmac.create(key, "some-string");
+        //     Assert.ok(hmac1 !== null && !hmac1.isEmptyOrWhiteSpace());
+        //     Assert.ok(hmac2 !== null && !hmac2.isEmptyOrWhiteSpace());
+        //     Assert.notStrictEqual(hmac1, "some-string");
+        //     Assert.notStrictEqual(hmac2, "some-string");
+        //     Assert.strictEqual(hmac1, hmac2);
+        // });
+        
+        // test("should throw CryptoException when key is null", async () =>
+        // {
+        //     try
+        //     {
+        //         await Hmac.create(null, "some-string");
+        //     }
+        //     catch (exception)
+        //     {
+        //         Assert.ok(exception instanceof CryptoException);
+        //         Assert.strictEqual(exception.message, "Parameter count mismatch.");
+        //         return;
+        //     }
+        //     Assert.ok(false);
+        // });
+        
+        // test("should throw CryptoException when value is null", async () =>
+        // {
+        //     try
+        //     {
+        //         let key = await SymmetricEncryption.generateKey();
+        //         await Hmac.create(key, null);
+        //     }
+        //     catch (exception)
+        //     {
+        //         Assert.ok(exception instanceof CryptoException);
+        //         Assert.strictEqual(exception.message, "Parameter count mismatch.");
+        //         return;
+        //     }
+        //     Assert.ok(false);
+        // });
+        
+        // test("should throw CryptoException when key is undefined", async () =>
+        // {
+        //     try
+        //     {
+        //         await Hmac.create(undefined, "some-string");
+        //     }
+        //     catch (exception)
+        //     {
+        //         Assert.ok(exception instanceof CryptoException);
+        //         Assert.strictEqual(exception.message, "Parameter count mismatch.");
+        //         return;
+        //     }
+        //     Assert.ok(false);
+        // });
 
-        test("should throw CryptoException when value is undefined", async () =>
-        {
-            try
-            {
-                let key = await SymmetricEncryption.generateKey();
-                await Hmac.create(key, undefined);
-            }
-            catch (exception)
-            {
-                assert.ok(exception instanceof CryptoException);
-                assert.strictEqual(exception.message, "Parameter count mismatch.");
-                return;
-            }
-            assert.ok(false);
-        });
+        // test("should throw CryptoException when value is undefined", async () =>
+        // {
+        //     try
+        //     {
+        //         let key = await SymmetricEncryption.generateKey();
+        //         await Hmac.create(key, undefined);
+        //     }
+        //     catch (exception)
+        //     {
+        //         Assert.ok(exception instanceof CryptoException);
+        //         Assert.strictEqual(exception.message, "Parameter count mismatch.");
+        //         return;
+        //     }
+        //     Assert.ok(false);
+        // });
         
-        test("should throw CryptoException when invalid key", async () =>
-        {
-            try
-            {
-                await Hmac.create("key", "hello world");
-            }
-            catch (exception)
-            {
-                assert.ok(exception instanceof CryptoException);
-                assert.strictEqual(exception.message, "Parameter count mismatch.");
-                return;
-            }
-            assert.ok(false);
-        });
+        // test("should throw CryptoException when invalid key", async () =>
+        // {
+        //     try
+        //     {
+        //         await Hmac.create("key", "hello world");
+        //     }
+        //     catch (exception)
+        //     {
+        //         Assert.ok(exception instanceof CryptoException);
+        //         Assert.strictEqual(exception.message, "Parameter count mismatch.");
+        //         return;
+        //     }
+        //     Assert.ok(false);
+        // });
     });
     
 });
