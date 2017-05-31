@@ -10,11 +10,11 @@ class AsymmetricEncryption {
     static getPublicKey(keyPair) {
         return interop_1.Interop.executeCommand("AsymmetricEncryption.GetPublicKey", keyPair);
     }
-    static encrypt(key, value) {
-        return interop_1.Interop.executeCommand("AsymmetricEncryption.Encrypt", key, value);
+    static encrypt(keyPairOrPublicKey, value) {
+        return interop_1.Interop.executeCommand("AsymmetricEncryption.Encrypt", keyPairOrPublicKey, value);
     }
-    static decrypt(key, value) {
-        return interop_1.Interop.executeCommand("AsymmetricEncryption.Decrypt", key, value);
+    static decrypt(keyPair, value) {
+        return interop_1.Interop.executeCommand("AsymmetricEncryption.Decrypt", keyPair, value);
     }
 }
 exports.AsymmetricEncryption = AsymmetricEncryption;
