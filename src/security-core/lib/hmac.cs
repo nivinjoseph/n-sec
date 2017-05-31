@@ -14,19 +14,27 @@ namespace SecurityCore
             if (value == null)
                 throw new ArgumentNullException("value");
 
-            HMACSHA512 hmac;
+            HMACSHA512 hmac = null;
 
             try
             {
-                hmac = new HMACSHA512(CryptoHelpers.FromHex(key));
-            }
-            catch
-            {
-                throw new CryptoException("Invalid key");
-            }
+                try
+                {
+                    hmac = new HMACSHA512(CryptoHelpers.FromHex(key));
+                }
+                catch (Exception ex)
+                {
+                    throw new CryptoException("Invalid key", ex);
+                }
 
-            var hash = hmac.ComputeHash(Encoding.UTF8.GetBytes(value));
-            return CryptoHelpers.ToHex(hash);
+                var hash = hmac.ComputeHash(Encoding.UTF8.GetBytes(value));
+                return CryptoHelpers.ToHex(hash);
+            }
+            finally
+            {
+                if(hmac != null)
+                    hmac.Dispose();
+            }
         }
     }
 }

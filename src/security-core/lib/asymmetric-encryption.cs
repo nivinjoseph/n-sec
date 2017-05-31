@@ -8,17 +8,27 @@ namespace SecurityCore
     {
         public static string GenerateKeyPair()
         {
-            var cipher = new RSACryptoServiceProvider(2048);
-            return CryptoHelpers.ToHex(cipher.ToXmlString(true));
+            using(var cipher = RSA.Create())
+            {
+                var rsaParams = cipher.ExportParameters(true);
+                var asymmetricKeyPair = new AsymmetricKeyPair(rsaParams);
+                return asymmetricKeyPair.toHexString(true);
+
+                // var cipher = new RSACryptoServiceProvider(2048);
+                // return CryptoHelpers.ToHex(cipher.ToXmlString(true));
+            }
         }
 
         public static string GetPublicKey(string keyPair)
         {
             try
             {
-                var cipher = new RSACryptoServiceProvider();
-                cipher.FromXmlString(CryptoHelpers.ToXml(keyPair));
-                return CryptoHelpers.ToHex(cipher.ToXmlString(false));
+                var asymmetricKeyPair = new AsymmetricKeyPair(keyPair);
+                return asymmetricKeyPair.toHexString(false);
+
+                // var cipher = new RSACryptoServiceProvider();
+                // cipher.FromXmlString(CryptoHelpers.ToXml(keyPair));
+                // return CryptoHelpers.ToHex(cipher.ToXmlString(false));
             }
             catch (Exception)
             {
@@ -26,55 +36,71 @@ namespace SecurityCore
             }
         }
 
-        public static string Encrypt(string key, string value)
+        public static string Encrypt(string keyPairOrPublicKey, string value)
         {
-            if (string.IsNullOrWhiteSpace(key))
-                throw new ArgumentNullException("key");
+            if (string.IsNullOrWhiteSpace(keyPairOrPublicKey))
+                throw new ArgumentNullException("keyPairOrPublicKey");
 
             if (value == null)
                 throw new ArgumentNullException("value");
 
-            var cipher = CreateCipher(key);
-            var plainText = Encoding.UTF8.GetBytes(value);
-            var cipherText = cipher.Encrypt(plainText, false);
-            return CryptoHelpers.ToHex(cipherText);
+            using(var cipher = CreateCipher(keyPairOrPublicKey))
+            {
+                var plainText = Encoding.UTF8.GetBytes(value);
+                var cipherText = cipher.Encrypt(plainText, RSAEncryptionPadding.Pkcs1);
+                return CryptoHelpers.ToHex(cipherText);
+            }
         }
 
-        public static string Decrypt(string key, string value)
+        public static string Decrypt(string keyPair, string value)
         {
-            if (string.IsNullOrWhiteSpace(key))
-                throw new ArgumentNullException("key");
+            if (string.IsNullOrWhiteSpace(keyPair))
+                throw new ArgumentNullException("keyPair");
 
             if (string.IsNullOrWhiteSpace(value))
                 throw new ArgumentNullException("value");
 
-            var cipher = CreateCipher(key);
-
-            try
+            using(var cipher = CreateCipher(keyPair))
             {
-                var cipherText = CryptoHelpers.FromHex(value);
-                var plainText = cipher.Decrypt(cipherText, false);
-                return Encoding.UTF8.GetString(plainText);
-            }
-            catch (Exception)
-            {
-                throw new CryptoException("Invalid value.");
+                try
+                {
+                    var cipherText = CryptoHelpers.FromHex(value);
+                    var plainText = cipher.Decrypt(cipherText, RSAEncryptionPadding.Pkcs1);
+                    return Encoding.UTF8.GetString(plainText);
+                }
+                catch (Exception)
+                {
+                    throw new CryptoException("Invalid value.");
+                }
             }
         }
 
 
-        private static RSACryptoServiceProvider CreateCipher(string key)
+        private static RSA CreateCipher(string keyPairOrPublicKey)
         {
             try
             {
-                var cipher = new RSACryptoServiceProvider();
-                cipher.FromXmlString(CryptoHelpers.ToXml(key));
-                return cipher;
+                var asymmetricKeyPair = new AsymmetricKeyPair(keyPairOrPublicKey);
+                return RSA.Create(asymmetricKeyPair.RSAParams);
             }
             catch (Exception)
             {
                 throw new CryptoException("Invalid key.");
             }
         }
+
+        // private static RSACryptoServiceProvider CreateCipher(string key)
+        // {
+        //     try
+        //     {
+        //         var cipher = new RSACryptoServiceProvider();
+        //         cipher.FromXmlString(CryptoHelpers.ToXml(key));
+        //         return cipher;
+        //     }
+        //     catch (Exception)
+        //     {
+        //         throw new CryptoException("Invalid key.");
+        //     }
+        // }
     }
 }

@@ -36,9 +36,11 @@ namespace SecurityCore
             if (value == null)
                 throw new ArgumentNullException("value");
 
-            var hasher = new SHA512Managed();
-            var hashBytes = hasher.ComputeHash(value);
-            return CryptoHelpers.ToHex(hashBytes);
+            using(var hasher = new SHA512Managed())
+            {
+                var hashBytes = hasher.ComputeHash(value);
+                return CryptoHelpers.ToHex(hashBytes);
+            }
         }
 
         private static string Reverse(string value)

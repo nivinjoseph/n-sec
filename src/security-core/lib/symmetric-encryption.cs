@@ -8,10 +8,12 @@ namespace SecurityCore
     {
         public static string GenerateKey()
         {
-            var rng = new RNGCryptoServiceProvider();
-            var bytes = new byte[32];
-            rng.GetBytes(bytes);
-            return CryptoHelpers.ToHex(bytes);
+            using(var rng = new RNGCryptoServiceProvider())
+            {
+                var bytes = new byte[32];
+                rng.GetBytes(bytes);
+                return CryptoHelpers.ToHex(bytes);
+            }
         }
 
         public static string Encrypt(string key, string value)
@@ -22,16 +24,18 @@ namespace SecurityCore
             if (value == null)
                 throw new ArgumentNullException("value");
 
-            var cipher = CreateCipher(key);
+            using(var cipher = CreateCipher(key))
+            {
+                var iv = cipher.IV;
 
-            var iv = cipher.IV;
+                using(var encryptor = cipher.CreateEncryptor())
+                {
+                    var plainText = Encoding.UTF8.GetBytes(value);
+                    var cipherText = encryptor.TransformFinalBlock(plainText, 0, plainText.Length);
 
-            var encryptor = cipher.CreateEncryptor();
-
-            var plainText = Encoding.UTF8.GetBytes(value);
-            var cipherText = encryptor.TransformFinalBlock(plainText, 0, plainText.Length);
-
-            return string.Format("{0}.{1}", CryptoHelpers.ToHex(cipherText), CryptoHelpers.ToHex(iv));
+                    return string.Format("{0}.{1}", CryptoHelpers.ToHex(cipherText), CryptoHelpers.ToHex(iv));
+                }
+            }            
         }
 
         public static string Decrypt(string key, string value)
@@ -42,26 +46,28 @@ namespace SecurityCore
             if(string.IsNullOrWhiteSpace(value))
                 throw new ArgumentNullException("value");
 
-            var cipher = CreateCipher(key);
-
-            var splitted = value.Split('.');
-            if (splitted.Length != 2)
-                throw new CryptoException("Invalid value.");
-
-            try
+            using(var cipher = CreateCipher(key))
             {
-                cipher.IV = CryptoHelpers.FromHex(splitted[1]);
+                var splitted = value.Split('.');
+                if (splitted.Length != 2)
+                    throw new CryptoException("Invalid value.");
 
-                var decryptor = cipher.CreateDecryptor();
+                try
+                {
+                    cipher.IV = CryptoHelpers.FromHex(splitted[1]);
 
-                var cipherText = CryptoHelpers.FromHex(splitted[0]);
-                var plainText = decryptor.TransformFinalBlock(cipherText, 0, cipherText.Length);
+                    using(var decryptor = cipher.CreateDecryptor())
+                    {
+                        var cipherText = CryptoHelpers.FromHex(splitted[0]);
+                        var plainText = decryptor.TransformFinalBlock(cipherText, 0, cipherText.Length);
 
-                return Encoding.UTF8.GetString(plainText);
-            }
-            catch (Exception)
-            {
-                throw new CryptoException("Invalid value.");
+                        return Encoding.UTF8.GetString(plainText);
+                    }
+                }
+                catch (Exception)
+                {
+                    throw new CryptoException("Invalid value.");
+                }
             }
         }
 
@@ -73,15 +79,15 @@ namespace SecurityCore
                 return new RijndaelManaged
                 {
                     KeySize = 256,
-                    BlockSize = 256,
+                    BlockSize = 128, // this has to be 128 for netcore 2.0
                     Padding = PaddingMode.ISO10126,
                     Mode = CipherMode.CBC,
                     Key = CryptoHelpers.FromHex(key)
                 };
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                throw new CryptoException("Invalid key.");
+                throw new CryptoException("Invalid key.", ex);
             }
         }
     }

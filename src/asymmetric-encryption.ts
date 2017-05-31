@@ -17,13 +17,13 @@ export class AsymmetricEncryption
         return Interop.executeCommand("AsymmetricEncryption.GetPublicKey", keyPair);
     }
     
-    public static encrypt(key: string, value: string): Promise<string>
+    public static encrypt(keyPairOrPublicKey: string, value: string): Promise<string>
     {
-        return Interop.executeCommand("AsymmetricEncryption.Encrypt", key, value);
+        return Interop.executeCommand("AsymmetricEncryption.Encrypt", keyPairOrPublicKey, value);
     }
     
-    public static decrypt(key: string, value: string): Promise<string>
+    public static decrypt(keyPair: string, value: string): Promise<string>
     {
-        return Interop.executeCommand("AsymmetricEncryption.Decrypt", key, value);
+        return Interop.executeCommand("AsymmetricEncryption.Decrypt", keyPair, value);
     }
 }
