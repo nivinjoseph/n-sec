@@ -1,5 +1,5 @@
 import * as Assert from "assert";
-import { Uuid } from "../src/uuid";
+import { Uuid } from "../src/crypto/uuid";
 import "n-ext";
 
 
