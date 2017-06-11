@@ -9,6 +9,7 @@ import { DigitalSignature } from "./../crypto/digital-signature";
 import { ExpiredTokenException } from "./expired-token-exception";
 
 
+// public
 export class JsonWebToken
 {
     private readonly _issuer: string;

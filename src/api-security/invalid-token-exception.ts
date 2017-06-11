@@ -3,6 +3,7 @@ import { given } from "n-defensive";
 import "n-ext";
 
 
+// public
 export class InvalidTokenException extends Exception
 { 
     private readonly _token: string;

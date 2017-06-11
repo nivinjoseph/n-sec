@@ -1,6 +1,8 @@
 import { given } from "n-defensive";
 import "n-ext";
 
+
+// public
 export class Claim
 {
     private readonly _type: string;

@@ -1,3 +1,4 @@
+// public
 export enum AlgType
 {
     hmac = 1,

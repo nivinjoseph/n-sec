@@ -2,6 +2,8 @@ import { Exception } from "n-exception";
 import { given } from "n-defensive";
 import "n-ext";
 
+
+// public
 export class ExpiredTokenException extends Exception
 {
     private readonly _token: string;
