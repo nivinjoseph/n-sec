@@ -8,7 +8,7 @@ import { ExpiredTokenException } from "../src/api-security/expired-token-excepti
 import { AsymmetricEncryption } from "../src/index";
 
 
-suite.only("Json Web Token ", () =>
+suite("Json Web Token ", () =>
 {
     suiteSetup(() =>
     {
@@ -264,7 +264,7 @@ suite.only("Json Web Token ", () =>
             let claim1 = new Claim("this_claim", "ThisValue");
             let claim2 = new Claim("that_claim", "ThatValue");
             let key = await AsymmetricEncryption.generateKeyPair();
-            let key2 = await AsymmetricEncryption.generateKeyPair()
+            let key2 = await AsymmetricEncryption.generateKeyPair();
             let time = Date.now();
             let token = await JsonWebToken.fromClaims("issuer1", 2, key, time + 1000000, [claim1, claim2]).generateToken();
             try
