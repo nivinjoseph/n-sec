@@ -1,6 +1,6 @@
 import * as Assert from "assert";
 import { Uuid } from "../src/crypto/uuid";
-import "n-ext";
+import "@nivinjoseph/n-ext";
 
 
 suite("Uuid", () =>

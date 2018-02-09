@@ -1,7 +1,6 @@
 import * as Assert from "assert";
 import { JsonWebToken } from "./../src/api-security/json-web-token";
 import { Claim } from "../src/api-security/claim";
-import { SecurityCoreConfiguration } from "../src/crypto/security-core-configuration";
 import { SymmetricEncryption } from "../src/index";
 import { InvalidTokenException } from "../src/api-security/invalid-token-exception";
 import { ExpiredTokenException } from "../src/api-security/expired-token-exception";
@@ -10,12 +9,6 @@ import { AsymmetricEncryption } from "../src/index";
 
 suite("Json Web Token ", () =>
 {
-    suiteSetup(() =>
-    {
-        SecurityCoreConfiguration.coreExePath = "./src/security-core/bin/Debug/netcoreapp2.0/security-core.dll";
-    });
-    
-
     suite("Hmac", () =>
     {
     
@@ -288,7 +281,7 @@ suite("Json Web Token ", () =>
             let key = await AsymmetricEncryption.generateKeyPair();
             let time = Date.now();
             let token = await JsonWebToken.fromClaims("issuer1", 2, key, time + 1000000, [claim1, claim2]).generateToken();
-            token = token + "someStuff";
+            token = token + "a6df467";
             try
             {
                 await JsonWebToken.fromToken("issuer1", 2, key, token);

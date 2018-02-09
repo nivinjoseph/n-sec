@@ -1,27 +1,20 @@
 {
-  "name": "n-sec",
+  "name": "@nivinjoseph/n-sec",
   "version": "1.0.11",
   "description": "Security library",
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
   "scripts": {
-    "dotnet-restore": "dotnet restore ./src/security-core",
-    "dotnet-build": "dotnet build ./src/security-core",
-    "predotnet-run": "npm run dotnet-build",
-    "dotnet-run": "dotnet ./src/security-core/bin/Debug/netcoreapp2.0/security-core.dll",
-    "dotnet-publish": "dotnet publish -c Release ./src/security-core",
     "ts-build": "tsc -p .",
     "ts-build-watch": "npm run ts-build -- -w",
     "ts-build-dist": "tsc -p ./dist",
     "clean-src": "find ./src -name '*.js' -delete -o -name '*.map' -delete",
     "clean-test": "find ./test -name '*.js' -delete -o -name '*.map' -delete",
-    "pretest": "npm run dotnet-build && npm run ts-build",
+    "pretest": "npm run ts-build",
     "test": "mocha --timeout 5000 --reporter spec --ui tdd --require ts-node/register './test/**/*.test.js' || true",
     "pretest-ci": "npm run pretest",
     "test-ci": "mocha --timeout 5000 --reporter spec --ui tdd --require ts-node/register './test/**/*.test.js'",
-    "pregit-publish": "npm run dotnet-publish && npm run ts-build-dist && git add . && git commit -m 'preparing to publish new version'",
-    "git-publish": "npm version patch",
-    "postgit-publish": "git push"
+    "publish-package": "npm run ts-build-dist && git add . && git commit -m 'preparing to publish new version' && npm version patch && git push && npm publish --access=public"
   },
   "repository": {
     "type": "git",
@@ -49,9 +42,10 @@
     "typescript": "2.2.1"
   },
   "dependencies": {
-    "n-defensive": "git+https://github.com/nivinjoseph/n-defensive.git",
-    "n-exception": "git+https://github.com/nivinjoseph/n-exception.git",
-    "n-ext": "git+https://github.com/nivinjoseph/n-ext.git",
+    "@nivinjoseph/n-defensive": "^1.0.17",
+    "@nivinjoseph/n-exception": "^1.0.13",
+    "@nivinjoseph/n-ext": "^1.0.24",
+    "ursa": "^0.9.4",
     "uuid": "^3.0.1"
   }
 }

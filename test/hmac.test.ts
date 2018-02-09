@@ -1,15 +1,9 @@
 import * as Assert from "assert";
-import { SecurityCoreConfiguration } from "./../src/crypto/security-core-configuration";
 import { Hmac, SymmetricEncryption } from "./../src/index";
 // import { CryptoException } from "./../src/crypto-exception";
 
 suite("Hmac", () =>
 {
-    suiteSetup(() =>
-    {
-        SecurityCoreConfiguration.coreExePath = "./src/security-core/bin/Debug/netcoreapp2.0/security-core.dll";
-    });
-    
     suite("create", () =>
     {
         test("should return string value that is not null, empty, whitespace or same as the key or input", async () =>

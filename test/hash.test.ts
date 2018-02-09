@@ -1,15 +1,10 @@
 import * as Assert from "assert";
-import { SecurityCoreConfiguration } from "./../src/crypto/security-core-configuration";
 import { Hash } from "./../src/index";
+import "@nivinjoseph/n-ext";
 // import { CryptoException } from "./../src/crypto-exception";
 
 suite("Hash", () =>
 {
-    suiteSetup(() =>
-    {
-        SecurityCoreConfiguration.coreExePath = "./src/security-core/bin/Debug/netcoreapp2.0/security-core.dll";
-    });
-    
     suite("create", () =>
     {
         test("must return a string value that is not null, empty, whitespace or same as input when called with a valid input", async () =>

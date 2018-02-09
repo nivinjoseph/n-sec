@@ -1,4 +1,6 @@
-import { Interop } from "./interop";
+const ursa = require("ursa");
+import { given } from "@nivinjoseph/n-defensive";
+import "@nivinjoseph/n-ext";
 
 
 // public
@@ -9,21 +11,52 @@ export class AsymmetricEncryption
     
     public static generateKeyPair(): Promise<string>
     {
-        return Interop.executeCommand("AsymmetricEncryption.GenerateKeyPair");
+        const key = ursa.generatePrivateKey();
+        return Promise.resolve(key.toPrivatePem().toString("hex"));
     }
     
     public static getPublicKey(keyPair: string): Promise<string>
     {
-        return Interop.executeCommand("AsymmetricEncryption.GetPublicKey", keyPair);
+        given(keyPair, "keyPair").ensureHasValue().ensureIsString().ensure(t => !t.isEmptyOrWhiteSpace());
+        
+        keyPair = keyPair.trim();
+        
+        const key = ursa.createPrivateKey(Buffer.from(keyPair, "hex"));
+        return Promise.resolve(key.toPublicPem().toString("hex"));
     }
     
     public static encrypt(keyPairOrPublicKey: string, value: string): Promise<string>
     {
-        return Interop.executeCommand("AsymmetricEncryption.Encrypt", keyPairOrPublicKey, value);
+        given(keyPairOrPublicKey, "keyPairOrPublicKey").ensureHasValue().ensureIsString().ensure(t => !t.isEmptyOrWhiteSpace());
+        given(value, "value").ensureHasValue().ensureIsString().ensure(t => !t.isEmptyOrWhiteSpace());
+
+        keyPairOrPublicKey = keyPairOrPublicKey.trim();
+        value = value.trim();
+        
+        const buf = Buffer.from(keyPairOrPublicKey, "hex");    
+        let key;
+        try 
+        {
+            key = ursa.createPublicKey(buf);
+        }
+        catch (error)
+        {
+            key = ursa.createPrivateKey(buf);
+        }
+        const encrypted = key.encrypt(Buffer.from(value, "utf8"), "utf8", "hex", ursa.RSA_PKCS1_PADDING);
+        return Promise.resolve(encrypted);
     }
     
     public static decrypt(keyPair: string, value: string): Promise<string>
     {
-        return Interop.executeCommand("AsymmetricEncryption.Decrypt", keyPair, value);
+        given(keyPair, "keyPair").ensureHasValue().ensureIsString().ensure(t => !t.isEmptyOrWhiteSpace());
+        given(value, "value").ensureHasValue().ensureIsString().ensure(t => !t.isEmptyOrWhiteSpace());
+
+        keyPair = keyPair.trim();
+        value = value.trim();
+        
+        const key = ursa.createPrivateKey(Buffer.from(keyPair, "hex"));
+        const decrypted = key.decrypt(Buffer.from(value, "hex"), "hex", "utf8", ursa.RSA_PKCS1_PADDING); 
+        return Promise.resolve(decrypted);
     }
 }
