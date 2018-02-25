@@ -22,7 +22,7 @@ export class AsymmetricEncryption
         keyPair = keyPair.trim();
         
         const key = ursa.createPrivateKey(Buffer.from(keyPair, "hex"));
-        return Promise.resolve(key.toPublicPem().toString("hex"));
+        return Promise.resolve(key.toPublicPem().toString("hex").toUpperCase());
     }
     
     public static encrypt(keyPairOrPublicKey: string, value: string): Promise<string>

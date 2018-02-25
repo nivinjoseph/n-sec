@@ -14,7 +14,7 @@ class AsymmetricEncryption {
         n_defensive_1.given(keyPair, "keyPair").ensureHasValue().ensureIsString().ensure(t => !t.isEmptyOrWhiteSpace());
         keyPair = keyPair.trim();
         const key = ursa.createPrivateKey(Buffer.from(keyPair, "hex"));
-        return Promise.resolve(key.toPublicPem().toString("hex"));
+        return Promise.resolve(key.toPublicPem().toString("hex").toUpperCase());
     }
     static encrypt(keyPairOrPublicKey, value) {
         n_defensive_1.given(keyPairOrPublicKey, "keyPairOrPublicKey").ensureHasValue().ensureIsString().ensure(t => !t.isEmptyOrWhiteSpace());
