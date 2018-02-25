@@ -13,7 +13,7 @@ class Hmac {
         value = value.trim();
         const hmac = Crypto.createHmac("sha512", Buffer.from(key, "hex"));
         hmac.update(value, "utf8");
-        return Promise.resolve(hmac.digest("hex"));
+        return Promise.resolve(hmac.digest("hex").toUpperCase());
     }
 }
 exports.Hmac = Hmac;
