@@ -52,7 +52,7 @@ export class SymmetricEncryption
                     let encrypted = cipher.update(value, "utf8", "hex");
                     encrypted += cipher.final("hex");
                     const cipherText = `${encrypted}.${iv.toString("hex")}`;
-                    resolve(cipherText);
+                    resolve(cipherText.toUpperCase());
                 }
                 catch (error)
                 {
