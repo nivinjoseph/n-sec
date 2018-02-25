@@ -1,9 +1,9 @@
 import { Claim } from "./claim";
-import { given } from "n-defensive";
-import "n-ext";
+import { given } from "@nivinjoseph/n-defensive";
+import "@nivinjoseph/n-ext";
 import { InvalidTokenException } from "./invalid-token-exception";
 import { AlgType } from "./alg-type";
-import { InvalidOperationException } from "n-exception";
+import { InvalidOperationException } from "@nivinjoseph/n-exception";
 import { Hmac } from "./../crypto/hmac";
 import { DigitalSignature } from "./../crypto/digital-signature";
 import { ExpiredTokenException } from "./expired-token-exception";

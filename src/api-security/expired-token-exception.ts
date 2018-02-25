@@ -1,6 +1,6 @@
-import { Exception } from "n-exception";
-import { given } from "n-defensive";
-import "n-ext";
+import { Exception } from "@nivinjoseph/n-exception";
+import { given } from "@nivinjoseph/n-defensive";
+import "@nivinjoseph/n-ext";
 
 
 // public

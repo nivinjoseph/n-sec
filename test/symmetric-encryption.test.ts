@@ -2,7 +2,7 @@ import * as Assert from "assert";
 import { SecurityCoreConfiguration } from "./../src/crypto/security-core-configuration";
 import { SymmetricEncryption } from "./../src/index";
 // import { CryptoException } from "./../src/crypto-exception";
-import "n-ext";
+import "@nivinjoseph/n-ext";
 
 
 suite("SymmetricEncryption", () =>

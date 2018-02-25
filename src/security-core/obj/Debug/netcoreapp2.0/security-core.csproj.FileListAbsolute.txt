@@ -7,3 +7,4 @@
 /Users/nivin/Development/github/n-sec/src/security-core/obj/Debug/netcoreapp2.0/security-core.AssemblyInfo.cs
 /Users/nivin/Development/github/n-sec/src/security-core/obj/Debug/netcoreapp2.0/security-core.dll
 /Users/nivin/Development/github/n-sec/src/security-core/obj/Debug/netcoreapp2.0/security-core.pdb
+/Users/nivin/Development/github/n-sec/src/security-core/obj/Debug/netcoreapp2.0/security-core.AssemblyInfoInputs.cache

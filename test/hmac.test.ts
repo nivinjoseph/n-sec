@@ -2,6 +2,7 @@ import * as Assert from "assert";
 import { SecurityCoreConfiguration } from "./../src/crypto/security-core-configuration";
 import { Hmac, SymmetricEncryption } from "./../src/index";
 // import { CryptoException } from "./../src/crypto-exception";
+import "@nivinjoseph/n-ext";
 
 suite("Hmac", () =>
 {

@@ -1,5 +1,5 @@
 import { Claim } from "./claim";
-import { given } from "n-defensive";
+import { given } from "@nivinjoseph/n-defensive";
 
 
 // public

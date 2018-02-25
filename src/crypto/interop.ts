@@ -1,7 +1,7 @@
 import * as ChildProcess from "child_process";
 import { SecurityCoreConfiguration } from "./security-core-configuration";
-import { given } from "n-defensive";
-import "n-ext";
+import { given } from "@nivinjoseph/n-defensive";
+import "@nivinjoseph/n-ext";
 import { CryptoException } from "./crypto-exception";
 
 
