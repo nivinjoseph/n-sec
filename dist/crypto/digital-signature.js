@@ -24,7 +24,7 @@ class DigitalSignature {
         hash.update(value, "utf8");
         const key = ursa.createPrivateKey(Buffer.from(keyPair, "hex"));
         const signature = key.sign("sha512", hash.digest(), null, "hex");
-        return Promise.resolve(signature);
+        return Promise.resolve(signature.toUpperCase());
     }
     static verify(keyPairOrPublicKey, value, signature) {
         return __awaiter(this, void 0, void 0, function* () {

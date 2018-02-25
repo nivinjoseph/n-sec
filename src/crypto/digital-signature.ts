@@ -23,7 +23,7 @@ export class DigitalSignature
         
         const key = ursa.createPrivateKey(Buffer.from(keyPair, "hex"));
         const signature = key.sign("sha512", hash.digest(), null, "hex");
-        return Promise.resolve(signature);
+        return Promise.resolve(signature.toUpperCase());
     }
     
     public static async verify(keyPairOrPublicKey: string, value: string, signature: string): Promise<boolean>
