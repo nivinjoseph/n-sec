@@ -8,7 +8,7 @@ class AsymmetricEncryption {
     constructor() { }
     static generateKeyPair() {
         const key = ursa.generatePrivateKey();
-        return Promise.resolve(key.toPrivatePem().toString("hex"));
+        return Promise.resolve(key.toPrivatePem().toString("hex").toUpperCase());
     }
     static getPublicKey(keyPair) {
         n_defensive_1.given(keyPair, "keyPair").ensureHasValue().ensureIsString().ensure(t => !t.isEmptyOrWhiteSpace());

@@ -12,7 +12,7 @@ export class AsymmetricEncryption
     public static generateKeyPair(): Promise<string>
     {
         const key = ursa.generatePrivateKey();
-        return Promise.resolve(key.toPrivatePem().toString("hex"));
+        return Promise.resolve(key.toPrivatePem().toString("hex").toUpperCase());
     }
     
     public static getPublicKey(keyPair: string): Promise<string>
