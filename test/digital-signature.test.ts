@@ -1,5 +1,4 @@
 import * as Assert from "assert";
-import { SecurityCoreConfiguration } from "./../src/crypto/security-core-configuration";
 import { AsymmetricEncryption, DigitalSignature } from "./../src/index";
 // import { CryptoException } from "./../src/crypto-exception";
 import "@nivinjoseph/n-ext";
@@ -7,11 +6,6 @@ import "@nivinjoseph/n-ext";
 
 suite("digitalSignature", () =>
 {
-    suiteSetup(() =>
-    {
-        SecurityCoreConfiguration.coreExePath = "./src/security-core/bin/Debug/netcoreapp2.0/security-core.dll";
-    });
-    
     suite("sign", () =>
     {   
         test("should return string value thats is not null, empty, whitespace, same as value or key pair when invoked with key pair and value", async () =>
@@ -159,7 +153,7 @@ suite("digitalSignature", () =>
             let publicKey = await AsymmetricEncryption.getPublicKey(keyPair);
             let value = "some-value";
             let signature = await DigitalSignature.sign(keyPair, value);
-            let tamperedSignature = signature + "D";
+            let tamperedSignature = "d" + signature;
             let verification = await DigitalSignature.verify(publicKey, value, tamperedSignature);
             Assert.strictEqual(verification, false);
         });

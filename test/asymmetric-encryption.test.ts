@@ -1,16 +1,10 @@
 import * as Assert from "assert";
-import { SecurityCoreConfiguration } from "./../src/crypto/security-core-configuration";
 import { AsymmetricEncryption } from "./../src/index";
 // import { CryptoException } from "./../src/crypto-exception";
 import "@nivinjoseph/n-ext";
 
 suite("AsymmetricEncryption", () =>
 {
-    suiteSetup(() =>
-    {
-        SecurityCoreConfiguration.coreExePath = "./src/security-core/bin/Debug/netcoreapp2.0/security-core.dll";
-    });
-    
     suite("generateKeyPair", () =>
     { 
         test("should return string value that is not null, empty or whitespace", async () =>
