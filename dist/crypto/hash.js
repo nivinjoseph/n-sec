@@ -11,7 +11,7 @@ class Hash {
         value = value.trim();
         const hash = Crypto.createHash("sha512");
         hash.update(value, "utf8");
-        return Promise.resolve(hash.digest("hex"));
+        return Promise.resolve(hash.digest("hex").toUpperCase());
     }
     static createUsingSalt(value, salt) {
         n_defensive_1.given(value, "value").ensureHasValue().ensureIsString().ensure(t => !t.isEmptyOrWhiteSpace());

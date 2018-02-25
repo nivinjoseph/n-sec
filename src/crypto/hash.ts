@@ -17,7 +17,7 @@ export class Hash
         
         const hash = Crypto.createHash("sha512");
         hash.update(value, "utf8");
-        return Promise.resolve(hash.digest("hex"));
+        return Promise.resolve(hash.digest("hex").toUpperCase());
     }
     
     public static createUsingSalt(value: string, salt: string): Promise<string>
