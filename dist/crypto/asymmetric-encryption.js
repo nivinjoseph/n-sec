@@ -30,7 +30,7 @@ class AsymmetricEncryption {
             key = ursa.createPrivateKey(buf);
         }
         const encrypted = key.encrypt(Buffer.from(value, "utf8"), "utf8", "hex", ursa.RSA_PKCS1_PADDING);
-        return Promise.resolve(encrypted);
+        return Promise.resolve(encrypted.toUpperCase());
     }
     static decrypt(keyPair, value) {
         n_defensive_1.given(keyPair, "keyPair").ensureHasValue().ensureIsString().ensure(t => !t.isEmptyOrWhiteSpace());

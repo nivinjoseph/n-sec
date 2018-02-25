@@ -44,7 +44,7 @@ export class AsymmetricEncryption
             key = ursa.createPrivateKey(buf);
         }
         const encrypted = key.encrypt(Buffer.from(value, "utf8"), "utf8", "hex", ursa.RSA_PKCS1_PADDING);
-        return Promise.resolve(encrypted);
+        return Promise.resolve(encrypted.toUpperCase());
     }
     
     public static decrypt(keyPair: string, value: string): Promise<string>
