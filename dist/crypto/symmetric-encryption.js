@@ -14,7 +14,7 @@ class SymmetricEncryption {
                     reject(err);
                     return;
                 }
-                resolve(buf.toString("hex"));
+                resolve(buf.toString("hex").toUpperCase());
             });
         });
     }

@@ -22,7 +22,7 @@ export class SymmetricEncryption
                     return;
                 }
 
-                resolve(buf.toString("hex"));
+                resolve(buf.toString("hex").toUpperCase());
             });
         });
     }

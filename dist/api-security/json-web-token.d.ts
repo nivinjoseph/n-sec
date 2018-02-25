@@ -15,7 +15,7 @@ export declare class JsonWebToken {
     readonly expiry: number;
     readonly isExpired: boolean;
     readonly claims: ReadonlyArray<Claim>;
-    private constructor(issuer, algType, key, isFullKey, expiry, claims);
+    private constructor();
     generateToken(): Promise<string>;
     static fromClaims(issuer: string, algType: AlgType, key: string, expiry: number, claims: Array<Claim>): JsonWebToken;
     static fromToken(issuer: string, algType: AlgType, key: string, token: string): Promise<JsonWebToken>;
