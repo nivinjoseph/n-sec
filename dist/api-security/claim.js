@@ -2,7 +2,6 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 const n_defensive_1 = require("@nivinjoseph/n-defensive");
 require("@nivinjoseph/n-ext");
-// public
 class Claim {
     get type() { return this._type; }
     get value() { return this._value; }

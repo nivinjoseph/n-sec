@@ -1,6 +1,5 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-// public
 var AlgType;
 (function (AlgType) {
     AlgType[AlgType["hmac"] = 1] = "hmac";

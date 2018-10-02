@@ -4,7 +4,6 @@ const Crypto = require("crypto");
 const crypto_exception_1 = require("./crypto-exception");
 const n_defensive_1 = require("@nivinjoseph/n-defensive");
 require("@nivinjoseph/n-ext");
-// public
 class SymmetricEncryption {
     constructor() { }
     static generateKey() {

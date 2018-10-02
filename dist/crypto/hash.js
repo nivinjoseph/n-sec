@@ -3,7 +3,6 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const n_defensive_1 = require("@nivinjoseph/n-defensive");
 require("@nivinjoseph/n-ext");
 const Crypto = require("crypto");
-// public
 class Hash {
     constructor() { }
     static create(value) {

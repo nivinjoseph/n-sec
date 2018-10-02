@@ -19,6 +19,6 @@ export declare class JsonWebToken {
     generateToken(): Promise<string>;
     static fromClaims(issuer: string, algType: AlgType, key: string, expiry: number, claims: Array<Claim>): JsonWebToken;
     static fromToken(issuer: string, algType: AlgType, key: string, token: string): Promise<JsonWebToken>;
-    private toHex(obj);
-    private static toObject(hex);
+    private toHex;
+    private static toObject;
 }

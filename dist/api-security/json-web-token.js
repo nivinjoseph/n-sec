@@ -17,7 +17,6 @@ const alg_type_1 = require("./alg-type");
 const hmac_1 = require("./../crypto/hmac");
 const digital_signature_1 = require("./../crypto/digital-signature");
 const expired_token_exception_1 = require("./expired-token-exception");
-// public
 class JsonWebToken {
     get issuer() { return this._issuer; }
     get algType() { return this._algType; }

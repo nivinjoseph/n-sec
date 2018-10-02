@@ -12,7 +12,6 @@ const ursa = require("ursa");
 const n_defensive_1 = require("@nivinjoseph/n-defensive");
 require("@nivinjoseph/n-ext");
 const Crypto = require("crypto");
-// public
 class DigitalSignature {
     constructor() { }
     static sign(keyPair, value) {

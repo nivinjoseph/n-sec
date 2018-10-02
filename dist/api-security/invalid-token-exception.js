@@ -3,7 +3,6 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const n_exception_1 = require("@nivinjoseph/n-exception");
 const n_defensive_1 = require("@nivinjoseph/n-defensive");
 require("@nivinjoseph/n-ext");
-// public
 class InvalidTokenException extends n_exception_1.Exception {
     get token() { return this._token; }
     get reason() { return this._reason; }
