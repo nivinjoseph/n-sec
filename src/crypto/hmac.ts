@@ -17,7 +17,7 @@ export class Hmac
         key = key.trim();
         value = value.trim();
         
-        const hmac = Crypto.createHmac("sha512", Buffer.from(key, "hex"));
+        const hmac = Crypto.createHmac("sha256", Buffer.from(key, "hex"));
         
         hmac.update(value, "utf8");
         return Promise.resolve(hmac.digest("hex").toUpperCase());
