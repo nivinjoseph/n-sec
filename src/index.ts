@@ -4,7 +4,6 @@ import { Hash } from "./crypto/hash";
 import { DigitalSignature } from "./crypto/digital-signature";
 import { AsymmetricEncryption } from "./crypto/asymmetric-encryption";
 import { CryptoException } from "./crypto/crypto-exception";
-import { Uuid } from "./crypto/uuid"; 
 
 import { AlgType } from "./api-security/alg-type";
 import { Claim } from "./api-security/claim";
@@ -16,7 +15,7 @@ import { JsonWebToken } from "./api-security/json-web-token";
 
 export
 {
-    SymmetricEncryption, Hmac, Hash, DigitalSignature, AsymmetricEncryption, CryptoException, Uuid,
+    SymmetricEncryption, Hmac, Hash, DigitalSignature, AsymmetricEncryption, CryptoException,
     
     AlgType, Claim, ClaimsIdentity, ExpiredTokenException, InvalidTokenException, JsonWebToken
 };
