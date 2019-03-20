@@ -10,6 +10,13 @@ class Claim {
         this._type = type.trim();
         this._value = value;
     }
+    equals(claim) {
+        if (claim == null)
+            return false;
+        if (claim === this)
+            return true;
+        return this.type === claim.type && this.value === claim.value;
+    }
 }
 exports.Claim = Claim;
 //# sourceMappingURL=claim.js.map

@@ -8,7 +8,7 @@ class ClaimsIdentity {
         this._claims = [...claims];
     }
     hasClaim(claim) {
-        return this._claims.some(t => t.type === claim.type && t.value === claim.value);
+        return this._claims.some(t => t.equals(claim));
     }
 }
 exports.ClaimsIdentity = ClaimsIdentity;

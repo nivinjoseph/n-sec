@@ -5,4 +5,5 @@ export declare class Claim {
     readonly type: string;
     readonly value: any;
     constructor(type: string, value: any);
+    equals(claim: Claim): boolean;
 }
