@@ -20,4 +20,16 @@ export class Claim
         this._type = type.trim();
         this._value = value;
     }
+    
+    
+    public equals(claim: Claim): boolean
+    {
+        if (claim == null)
+            return false;
+
+        if (claim === this)
+            return true;
+
+        return this.type === claim.type && this.value === claim.value;
+    }
 }
