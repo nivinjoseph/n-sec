@@ -1,9 +1,10 @@
 "use strict";
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
+    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
     return new (P || (P = Promise))(function (resolve, reject) {
         function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
         function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
-        function step(result) { result.done ? resolve(result.value) : new P(function (resolve) { resolve(result.value); }).then(fulfilled, rejected); }
+        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
@@ -13,18 +14,9 @@ const n_exception_1 = require("@nivinjoseph/n-exception");
 const n_defensive_1 = require("@nivinjoseph/n-defensive");
 require("@nivinjoseph/n-ext");
 const invalid_token_exception_1 = require("./invalid-token-exception");
-const alg_type_1 = require("./alg-type");
 const hmac_1 = require("./../crypto/hmac");
-const digital_signature_1 = require("./../crypto/digital-signature");
 const expired_token_exception_1 = require("./expired-token-exception");
 class JsonWebToken {
-    get issuer() { return this._issuer; }
-    get algType() { return this._algType; }
-    get key() { return this._key; }
-    get canGenerateToken() { return this._isfullKey; }
-    get expiry() { return this._expiry; }
-    get isExpired() { return this._expiry <= Date.now(); }
-    get claims() { return this._claims; }
     constructor(issuer, algType, key, isFullKey, expiry, claims) {
         n_defensive_1.given(issuer, "issuer").ensureHasValue().ensure(t => !t.isEmptyOrWhiteSpace());
         n_defensive_1.given(algType, "algType").ensureHasValue().ensure(t => t === 1 || t === 2);
@@ -41,6 +33,13 @@ class JsonWebToken {
         this._expiry = expiry;
         this._claims = [...claims];
     }
+    get issuer() { return this._issuer; }
+    get algType() { return this._algType; }
+    get key() { return this._key; }
+    get canGenerateToken() { return this._isfullKey; }
+    get expiry() { return this._expiry; }
+    get isExpired() { return this._expiry <= Date.now(); }
+    get claims() { return this._claims; }
     generateToken() {
         return __awaiter(this, void 0, void 0, function* () {
             if (!this._isfullKey)
@@ -53,9 +52,7 @@ class JsonWebToken {
             let body = {};
             this._claims.forEach(t => body[t.type] = t.value);
             let headerAndBody = this.toHex(header) + "." + this.toHex(body);
-            let signature = this._algType === alg_type_1.AlgType.hmac
-                ? yield hmac_1.Hmac.create(this._key, headerAndBody)
-                : yield digital_signature_1.DigitalSignature.sign(this._key, headerAndBody);
+            let signature = yield hmac_1.Hmac.create(this._key, headerAndBody);
             let token = headerAndBody + "." + signature;
             return token;
         });
@@ -94,16 +91,9 @@ class JsonWebToken {
                 throw new invalid_token_exception_1.InvalidTokenException(token, `exp value '${header.exp}' is invalid`);
             if (header.exp <= Date.now())
                 throw new expired_token_exception_1.ExpiredTokenException(token);
-            if (algType === alg_type_1.AlgType.hmac) {
-                let computedSignature = yield hmac_1.Hmac.create(key, headerString + "." + bodyString);
-                if (computedSignature !== signature)
-                    throw new invalid_token_exception_1.InvalidTokenException(token, "signature could not be verified");
-            }
-            else {
-                let verification = yield digital_signature_1.DigitalSignature.verify(key, headerString + "." + bodyString, signature);
-                if (!verification)
-                    throw new invalid_token_exception_1.InvalidTokenException(token, "signature could not be verified");
-            }
+            let computedSignature = yield hmac_1.Hmac.create(key, headerString + "." + bodyString);
+            if (computedSignature !== signature)
+                throw new invalid_token_exception_1.InvalidTokenException(token, "signature could not be verified");
             let claims = new Array();
             for (let item in body)
                 claims.push(new claim_1.Claim(item, body[item]));

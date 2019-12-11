@@ -3,13 +3,13 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const n_defensive_1 = require("@nivinjoseph/n-defensive");
 require("@nivinjoseph/n-ext");
 class Claim {
-    get type() { return this._type; }
-    get value() { return this._value; }
     constructor(type, value) {
         n_defensive_1.given(type, "type").ensureHasValue().ensure(t => !t.isEmptyOrWhiteSpace());
         this._type = type.trim();
         this._value = value;
     }
+    get type() { return this._type; }
+    get value() { return this._value; }
     equals(claim) {
         if (claim == null)
             return false;

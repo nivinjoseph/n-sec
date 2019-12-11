@@ -3,7 +3,7 @@ import "@nivinjoseph/n-ext";
 export declare class InvalidTokenException extends Exception {
     private readonly _token;
     private readonly _reason;
-    readonly token: string;
-    readonly reason: string;
+    get token(): string;
+    get reason(): string;
     constructor(token: string, reason: string);
 }

@@ -1,1 +1,1 @@
-{"version":3,"file":"alg-type.js","sourceRoot":"","sources":["../../src/api-security/alg-type.ts"],"names":[],"mappings":";;AACA,IAAY,OAIX;AAJD,WAAY,OAAO;IAEf,qCAAQ,CAAA;IACR,qCAAQ,CAAA;AACZ,CAAC,EAJW,OAAO,GAAP,eAAO,KAAP,eAAO,QAIlB"}
+{"version":3,"file":"alg-type.js","sourceRoot":"","sources":["../../src/api-security/alg-type.ts"],"names":[],"mappings":";;AACA,IAAY,OAIX;AAJD,WAAY,OAAO;IAEf,qCAAQ,CAAA;AAEZ,CAAC,EAJW,OAAO,GAAP,eAAO,KAAP,eAAO,QAIlB"}
