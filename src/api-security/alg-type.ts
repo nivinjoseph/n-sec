@@ -1,6 +1,6 @@
 // public
 export enum AlgType
 {
-    hmac = 1,
-    dsig = 2
+    hmac = 1
+    // dsig = 2
 }

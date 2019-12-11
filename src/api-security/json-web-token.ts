@@ -5,7 +5,7 @@ import "@nivinjoseph/n-ext";
 import { InvalidTokenException } from "./invalid-token-exception";
 import { AlgType } from "./alg-type";
 import { Hmac } from "./../crypto/hmac";
-import { DigitalSignature } from "./../crypto/digital-signature";
+// import { DigitalSignature } from "./../crypto/digital-signature";
 import { ExpiredTokenException } from "./expired-token-exception";
 
 
@@ -65,9 +65,11 @@ export class JsonWebToken
         
         let headerAndBody = this.toHex(header) + "." + this.toHex(body);
         
-        let signature = this._algType === AlgType.hmac
-            ? await Hmac.create(this._key, headerAndBody)
-            : await DigitalSignature.sign(this._key, headerAndBody);
+        // let signature = this._algType === AlgType.hmac
+        //     ? await Hmac.create(this._key, headerAndBody)
+        //     : await DigitalSignature.sign(this._key, headerAndBody);
+        
+        let signature = await Hmac.create(this._key, headerAndBody);
         
         let token = headerAndBody + "." + signature;
         return token;
@@ -125,18 +127,22 @@ export class JsonWebToken
         if (header.exp <= Date.now())
             throw new ExpiredTokenException(token);
         
-        if (algType === AlgType.hmac)
-        {
-            let computedSignature = await Hmac.create(key, headerString + "." + bodyString);
-            if (computedSignature !== signature)
-                throw new InvalidTokenException(token, "signature could not be verified");    
-        }   
-        else
-        {
-            let verification = await DigitalSignature.verify(key, headerString + "." + bodyString, signature);
-            if (!verification)
-                throw new InvalidTokenException(token, "signature could not be verified");  
-        }    
+        // if (algType === AlgType.hmac)
+        // {
+        //     let computedSignature = await Hmac.create(key, headerString + "." + bodyString);
+        //     if (computedSignature !== signature)
+        //         throw new InvalidTokenException(token, "signature could not be verified");    
+        // }   
+        // else
+        // {
+        //     let verification = await DigitalSignature.verify(key, headerString + "." + bodyString, signature);
+        //     if (!verification)
+        //         throw new InvalidTokenException(token, "signature could not be verified");  
+        // }    
+        
+        let computedSignature = await Hmac.create(key, headerString + "." + bodyString);
+        if (computedSignature !== signature)
+            throw new InvalidTokenException(token, "signature could not be verified");    
         
         let claims = new Array<Claim>();
         for (let item in body)

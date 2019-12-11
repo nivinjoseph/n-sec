@@ -4,7 +4,7 @@ import { Claim } from "../src/api-security/claim";
 import { SymmetricEncryption } from "../src/index";
 import { InvalidTokenException } from "../src/api-security/invalid-token-exception";
 import { ExpiredTokenException } from "../src/api-security/expired-token-exception";
-import { AsymmetricEncryption } from "../src/index";
+// import { AsymmetricEncryption } from "../src/index";
 
 
 suite("Json Web Token ", () =>
@@ -159,141 +159,141 @@ suite("Json Web Token ", () =>
         });
     }); 
     
-    suite("digital Signature", () =>
-    {
-        test("should successfully create a token using keyPair using digital Signature with one claim and get jwt using keyPair", async () =>
-        {
-            let keyPair = await AsymmetricEncryption.generateKeyPair();
-            let claim = new Claim("this_claim", "ThisValue");
-            let time = Date.now();
-            let token = await JsonWebToken.fromClaims("issuer1", 2, keyPair, time + 10000000, [claim]).generateToken();
-            let jwt = await JsonWebToken.fromToken("issuer1", 2, keyPair, token);
-            Assert.ok(jwt !== null || jwt !== undefined);
-            Assert.strictEqual(jwt.issuer, "issuer1");
-            Assert.strictEqual(jwt.algType, 2);
-            Assert.strictEqual(jwt.expiry, time + 10000000);
-            Assert.deepStrictEqual(jwt.claims, [claim]);
-        });
+    // suite("digital Signature", () =>
+    // {
+    //     test("should successfully create a token using keyPair using digital Signature with one claim and get jwt using keyPair", async () =>
+    //     {
+    //         let keyPair = await AsymmetricEncryption.generateKeyPair();
+    //         let claim = new Claim("this_claim", "ThisValue");
+    //         let time = Date.now();
+    //         let token = await JsonWebToken.fromClaims("issuer1", 2, keyPair, time + 10000000, [claim]).generateToken();
+    //         let jwt = await JsonWebToken.fromToken("issuer1", 2, keyPair, token);
+    //         Assert.ok(jwt !== null || jwt !== undefined);
+    //         Assert.strictEqual(jwt.issuer, "issuer1");
+    //         Assert.strictEqual(jwt.algType, 2);
+    //         Assert.strictEqual(jwt.expiry, time + 10000000);
+    //         Assert.deepStrictEqual(jwt.claims, [claim]);
+    //     });
         
-        test("should successfully create a token using keyPair using digital Signature with one claim and get jwt using public key", async () =>
-        {
-            let keyPair = await AsymmetricEncryption.generateKeyPair();
-            let pubKey = await AsymmetricEncryption.getPublicKey(keyPair);
-            let claim = new Claim("this_claim", "ThisValue");
-            let time = Date.now();
-            let token = await JsonWebToken.fromClaims("issuer1", 2, keyPair, time + 10000000, [claim]).generateToken();
-            let jwt = await JsonWebToken.fromToken("issuer1", 2, pubKey, token);
-            Assert.ok(jwt !== null || jwt !== undefined);
-            Assert.strictEqual(jwt.issuer, "issuer1");
-            Assert.strictEqual(jwt.algType, 2);
-            Assert.strictEqual(jwt.expiry, time + 10000000);
-            Assert.deepStrictEqual(jwt.claims, [claim]);
-        });
+    //     test("should successfully create a token using keyPair using digital Signature with one claim and get jwt using public key", async () =>
+    //     {
+    //         let keyPair = await AsymmetricEncryption.generateKeyPair();
+    //         let pubKey = await AsymmetricEncryption.getPublicKey(keyPair);
+    //         let claim = new Claim("this_claim", "ThisValue");
+    //         let time = Date.now();
+    //         let token = await JsonWebToken.fromClaims("issuer1", 2, keyPair, time + 10000000, [claim]).generateToken();
+    //         let jwt = await JsonWebToken.fromToken("issuer1", 2, pubKey, token);
+    //         Assert.ok(jwt !== null || jwt !== undefined);
+    //         Assert.strictEqual(jwt.issuer, "issuer1");
+    //         Assert.strictEqual(jwt.algType, 2);
+    //         Assert.strictEqual(jwt.expiry, time + 10000000);
+    //         Assert.deepStrictEqual(jwt.claims, [claim]);
+    //     });
         
-        test("should throw an exception when getting JWT with a different issuer that what was user to generate token", async () =>
-        {
-            let keyPair = await AsymmetricEncryption.generateKeyPair();
-            let pubKey = await AsymmetricEncryption.getPublicKey(keyPair);
-            let claim = new Claim("this_claim", "ThisValue");
-            let time = Date.now();
-            let token = await JsonWebToken.fromClaims("issuer1", 2, keyPair, time + 10000000, [claim]).generateToken();
-            try
-            {
-                await JsonWebToken.fromToken("notTheIssuer", 1, pubKey, token);
-            }
-            catch (exp)
-            {
-                Assert.ok(exp instanceof InvalidTokenException);
-                Assert.equal(exp.message, `Token '${token}' is invalid because iss was expected to be 'notTheIssuer' but instead was 'issuer1'.`);
-                return;
-            }
-            Assert.ok(false);
-        });
+    //     test("should throw an exception when getting JWT with a different issuer that what was user to generate token", async () =>
+    //     {
+    //         let keyPair = await AsymmetricEncryption.generateKeyPair();
+    //         let pubKey = await AsymmetricEncryption.getPublicKey(keyPair);
+    //         let claim = new Claim("this_claim", "ThisValue");
+    //         let time = Date.now();
+    //         let token = await JsonWebToken.fromClaims("issuer1", 2, keyPair, time + 10000000, [claim]).generateToken();
+    //         try
+    //         {
+    //             await JsonWebToken.fromToken("notTheIssuer", 1, pubKey, token);
+    //         }
+    //         catch (exp)
+    //         {
+    //             Assert.ok(exp instanceof InvalidTokenException);
+    //             Assert.equal(exp.message, `Token '${token}' is invalid because iss was expected to be 'notTheIssuer' but instead was 'issuer1'.`);
+    //             return;
+    //         }
+    //         Assert.ok(false);
+    //     });
         
-        test("should throw an exception when getting JWT algorithm given is different than what was used for the token generation", async () =>
-        {
-            let claim1 = new Claim("this_claim", "ThisValue");
-            let claim2 = new Claim("that_claim", "ThatValue");
-            let keyPair = await AsymmetricEncryption.generateKeyPair();
-            let pubKey = await AsymmetricEncryption.getPublicKey(keyPair);
-            let time = Date.now();
-            let token = await JsonWebToken.fromClaims("issuer1", 2, keyPair, time + 1000000, [claim1, claim2]).generateToken();
-            try
-            {
-                await JsonWebToken.fromToken("issuer1", 1, pubKey, token);
-            }
-            catch (exp)
-            {
-                Assert.ok(exp instanceof InvalidTokenException);
-                Assert.equal(exp.message, `Token '${token}' is invalid because alg was expected to be '${1}' but instead was '${2}'.`);
-                return;
-            }
-            Assert.ok(false);
-        });
+    //     test("should throw an exception when getting JWT algorithm given is different than what was used for the token generation", async () =>
+    //     {
+    //         let claim1 = new Claim("this_claim", "ThisValue");
+    //         let claim2 = new Claim("that_claim", "ThatValue");
+    //         let keyPair = await AsymmetricEncryption.generateKeyPair();
+    //         let pubKey = await AsymmetricEncryption.getPublicKey(keyPair);
+    //         let time = Date.now();
+    //         let token = await JsonWebToken.fromClaims("issuer1", 2, keyPair, time + 1000000, [claim1, claim2]).generateToken();
+    //         try
+    //         {
+    //             await JsonWebToken.fromToken("issuer1", 1, pubKey, token);
+    //         }
+    //         catch (exp)
+    //         {
+    //             Assert.ok(exp instanceof InvalidTokenException);
+    //             Assert.equal(exp.message, `Token '${token}' is invalid because alg was expected to be '${1}' but instead was '${2}'.`);
+    //             return;
+    //         }
+    //         Assert.ok(false);
+    //     });
         
-        test("should throw an exception when getting JWT algorithm given is different than what was used for the token generation", async () =>
-        {
-            let claim1 = new Claim("this_claim", "ThisValue");
-            let claim2 = new Claim("that_claim", "ThatValue");
-            let keyPair = await AsymmetricEncryption.generateKeyPair();
-            let pubKey = await AsymmetricEncryption.getPublicKey(keyPair);
-            let time = Date.now();
-            let token = await JsonWebToken.fromClaims("issuer1", 2, keyPair, time, [claim1, claim2]).generateToken();
-            try
-            {
-                await JsonWebToken.fromToken("issuer1", 2, pubKey, token);
-            }
-            catch (exp)
-            {
-                Assert.ok(exp instanceof ExpiredTokenException);
-                Assert.equal(exp.message, `Token '${token}' is expired.`);
-                return;
-            }
-            Assert.ok(false);
-        });
+    //     test("should throw an exception when getting JWT algorithm given is different than what was used for the token generation", async () =>
+    //     {
+    //         let claim1 = new Claim("this_claim", "ThisValue");
+    //         let claim2 = new Claim("that_claim", "ThatValue");
+    //         let keyPair = await AsymmetricEncryption.generateKeyPair();
+    //         let pubKey = await AsymmetricEncryption.getPublicKey(keyPair);
+    //         let time = Date.now();
+    //         let token = await JsonWebToken.fromClaims("issuer1", 2, keyPair, time, [claim1, claim2]).generateToken();
+    //         try
+    //         {
+    //             await JsonWebToken.fromToken("issuer1", 2, pubKey, token);
+    //         }
+    //         catch (exp)
+    //         {
+    //             Assert.ok(exp instanceof ExpiredTokenException);
+    //             Assert.equal(exp.message, `Token '${token}' is expired.`);
+    //             return;
+    //         }
+    //         Assert.ok(false);
+    //     });
         
-        test("should throw an exception when getting JWT key given is different than what was used for the token generation", async () =>
-        {
-            let claim1 = new Claim("this_claim", "ThisValue");
-            let claim2 = new Claim("that_claim", "ThatValue");
-            let key = await AsymmetricEncryption.generateKeyPair();
-            let key2 = await AsymmetricEncryption.generateKeyPair();
-            let time = Date.now();
-            let token = await JsonWebToken.fromClaims("issuer1", 2, key, time + 1000000, [claim1, claim2]).generateToken();
-            try
-            {
-                await JsonWebToken.fromToken("issuer1", 2, key2, token);
-            }
-            catch (exp)
-            {
-                Assert.ok(exp instanceof InvalidTokenException);
-                Assert.equal(exp.message, `Token '${token}' is invalid because signature could not be verified.`);
-                return;
-            }
-            Assert.ok(false);
-        });
+    //     test("should throw an exception when getting JWT key given is different than what was used for the token generation", async () =>
+    //     {
+    //         let claim1 = new Claim("this_claim", "ThisValue");
+    //         let claim2 = new Claim("that_claim", "ThatValue");
+    //         let key = await AsymmetricEncryption.generateKeyPair();
+    //         let key2 = await AsymmetricEncryption.generateKeyPair();
+    //         let time = Date.now();
+    //         let token = await JsonWebToken.fromClaims("issuer1", 2, key, time + 1000000, [claim1, claim2]).generateToken();
+    //         try
+    //         {
+    //             await JsonWebToken.fromToken("issuer1", 2, key2, token);
+    //         }
+    //         catch (exp)
+    //         {
+    //             Assert.ok(exp instanceof InvalidTokenException);
+    //             Assert.equal(exp.message, `Token '${token}' is invalid because signature could not be verified.`);
+    //             return;
+    //         }
+    //         Assert.ok(false);
+    //     });
         
         
-        test("should throw an exception when getting JWT when the token is tampered with", async () =>
-        {
-            let claim1 = new Claim("this_claim", "ThisValue");
-            let claim2 = new Claim("that_claim", "ThatValue");
-            let key = await AsymmetricEncryption.generateKeyPair();
-            let time = Date.now();
-            let token = await JsonWebToken.fromClaims("issuer1", 2, key, time + 1000000, [claim1, claim2]).generateToken();
-            token = token + "a6df467";
-            try
-            {
-                await JsonWebToken.fromToken("issuer1", 2, key, token);
-            }
-            catch (exp)
-            {
-                Assert.ok(exp instanceof InvalidTokenException);
-                Assert.equal(exp.message, `Token '${token}' is invalid because signature could not be verified.`);
-                return;
-            }
-            Assert.ok(false);
-        });
-    });
+    //     test("should throw an exception when getting JWT when the token is tampered with", async () =>
+    //     {
+    //         let claim1 = new Claim("this_claim", "ThisValue");
+    //         let claim2 = new Claim("that_claim", "ThatValue");
+    //         let key = await AsymmetricEncryption.generateKeyPair();
+    //         let time = Date.now();
+    //         let token = await JsonWebToken.fromClaims("issuer1", 2, key, time + 1000000, [claim1, claim2]).generateToken();
+    //         token = token + "a6df467";
+    //         try
+    //         {
+    //             await JsonWebToken.fromToken("issuer1", 2, key, token);
+    //         }
+    //         catch (exp)
+    //         {
+    //             Assert.ok(exp instanceof InvalidTokenException);
+    //             Assert.equal(exp.message, `Token '${token}' is invalid because signature could not be verified.`);
+    //             return;
+    //         }
+    //         Assert.ok(false);
+    //     });
+    // });
     
 });
