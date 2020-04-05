@@ -11,6 +11,7 @@ import { ClaimsIdentity } from "./api-security/claims-identity";
 import { ExpiredTokenException } from "./api-security/expired-token-exception";
 import { InvalidTokenException } from "./api-security/invalid-token-exception";
 import { JsonWebToken } from "./api-security/json-web-token";
+import { SecurityToken } from "./api-security/security-token";
 
 
 export
@@ -19,5 +20,5 @@ export
     // DigitalSignature, AsymmetricEncryption,
     CryptoException,
     
-    AlgType, Claim, ClaimsIdentity, ExpiredTokenException, InvalidTokenException, JsonWebToken
+    AlgType, Claim, ClaimsIdentity, ExpiredTokenException, InvalidTokenException, JsonWebToken, SecurityToken
 };
