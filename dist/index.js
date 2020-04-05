@@ -20,4 +20,6 @@ const invalid_token_exception_1 = require("./api-security/invalid-token-exceptio
 exports.InvalidTokenException = invalid_token_exception_1.InvalidTokenException;
 const json_web_token_1 = require("./api-security/json-web-token");
 exports.JsonWebToken = json_web_token_1.JsonWebToken;
+const security_token_1 = require("./api-security/security-token");
+exports.SecurityToken = security_token_1.SecurityToken;
 //# sourceMappingURL=index.js.map
