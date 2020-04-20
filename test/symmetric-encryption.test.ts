@@ -11,6 +11,7 @@ suite("SymmetricEncryption", () =>
         test("must return string value that is not null, empty or whitespace", async () =>
         {
             let key = await SymmetricEncryption.generateKey();
+            console.log("key", key);
             Assert.ok(key !== null && !key.isEmptyOrWhiteSpace());
         });
         
