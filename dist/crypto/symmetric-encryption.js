@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.SymmetricEncryption = void 0;
 const Crypto = require("crypto");
 const crypto_exception_1 = require("./crypto-exception");
 const n_defensive_1 = require("@nivinjoseph/n-defensive");
