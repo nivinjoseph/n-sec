@@ -17,6 +17,7 @@
         "removeComments": true,
         "forceConsistentCasingInFileNames": true,
         "incremental": false,
+        "noImplicitOverride": true,
         "plugins": [
             {
                 "name": "typescript-tslint-plugin",
