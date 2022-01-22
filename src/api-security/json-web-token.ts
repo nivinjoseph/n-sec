@@ -1,7 +1,6 @@
 import { Claim } from "./claim";
 import { InvalidOperationException } from "@nivinjoseph/n-exception";
 import { given } from "@nivinjoseph/n-defensive";
-import "@nivinjoseph/n-ext";
 import { InvalidTokenException } from "./invalid-token-exception";
 import { AlgType } from "./alg-type";
 import { Hmac } from "./../crypto/hmac";
@@ -32,9 +31,9 @@ export class JsonWebToken
     private constructor(issuer: string, algType: AlgType, key: string, isFullKey: boolean, expiry: number,
         claims: Array<Claim>)
     {
-        given(issuer, "issuer").ensureHasValue().ensure(t => !t.isEmptyOrWhiteSpace());
-        given(algType, "algType").ensureHasValue().ensure(t => t === 1 || t === 2);
-        given(key, "key").ensureHasValue().ensure(t => !t.isEmptyOrWhiteSpace());
+        given(issuer, "issuer").ensureHasValue();
+        given(algType, "algType").ensureHasValue().ensureIsEnum(AlgType);
+        given(key, "key").ensureHasValue();
         given(isFullKey, "isFullKey").ensureHasValue();
         given(expiry, "expiry").ensureHasValue();
         given(claims, "claims")
@@ -49,29 +48,29 @@ export class JsonWebToken
         this._claims = [...claims];
     }
     
-    public async generateToken(): Promise<string>
+    public generateToken(): string
     {
         if (!this._isfullKey)
             throw new InvalidOperationException("generating token using an instance created from token");    
         
-        let header: Header = {
+        const header: Header = {
             iss: this._issuer,
             alg: this._algType,
             exp: this._expiry
         };
         
-        let body: any = {};
+        const body: any = {};
         this._claims.forEach(t => body[t.type] = t.value);
         
-        let headerAndBody = this.toHex(header) + "." + this.toHex(body);
+        const headerAndBody = this.toHex(header) + "." + this.toHex(body);
         
         // let signature = this._algType === AlgType.hmac
         //     ? await Hmac.create(this._key, headerAndBody)
         //     : await DigitalSignature.sign(this._key, headerAndBody);
         
-        let signature = await Hmac.create(this._key, headerAndBody);
+        const signature = Hmac.create(this._key, headerAndBody);
         
-        let token = headerAndBody + "." + signature;
+        const token = headerAndBody + "." + signature;
         return token;
     }
     
@@ -82,27 +81,27 @@ export class JsonWebToken
         return new JsonWebToken(issuer, algType, key, true, expiry, claims);
     }
     
-    public static async fromToken(issuer: string, algType: AlgType, key: string, token: string): Promise<JsonWebToken>
+    public static fromToken(issuer: string, algType: AlgType, key: string, token: string): JsonWebToken
     {
-        given(issuer, "issuer").ensureHasValue().ensure(t => !t.isEmptyOrWhiteSpace());
-        given(algType, "algType").ensureHasValue().ensure(t => t === 1 || t === 2);
-        given(key, "key").ensureHasValue().ensure(t => !t.isEmptyOrWhiteSpace());
-        given(token, "token").ensureHasValue().ensure(t => !t.isEmptyOrWhiteSpace());
+        given(issuer, "issuer").ensureHasValue();
+        given(algType, "algType").ensureHasValue().ensureIsEnum(AlgType);
+        given(key, "key").ensureHasValue();
+        given(token, "token").ensureHasValue();
         
         issuer = issuer.trim();
         key = key.trim();
         token = token.trim();
         
-        let tokenSplitted = token.split(".");
+        const tokenSplitted = token.split(".");
         if (tokenSplitted.length !== 3)
             throw new InvalidTokenException(token, "format is incorrect");
         
-        let headerString = tokenSplitted[0];
-        let bodyString = tokenSplitted[1];
-        let signature = tokenSplitted[2];
+        const headerString = tokenSplitted[0];
+        const bodyString = tokenSplitted[1];
+        const signature = tokenSplitted[2];
         
-        let header: Header = JsonWebToken.toObject(headerString) as Header;
-        let body: any = JsonWebToken.toObject(bodyString);
+        const header: Header = JsonWebToken.toObject(headerString) as Header;
+        const body: any = JsonWebToken.toObject(bodyString);
         
         if (header.iss === undefined || header.iss === null)
             throw new InvalidTokenException(token, "iss was not present");
@@ -140,11 +139,11 @@ export class JsonWebToken
         //         throw new InvalidTokenException(token, "signature could not be verified");  
         // }    
         
-        let computedSignature = await Hmac.create(key, headerString + "." + bodyString);
+        const computedSignature = Hmac.create(key, headerString + "." + bodyString);
         if (computedSignature !== signature)
             throw new InvalidTokenException(token, "signature could not be verified");    
         
-        let claims = new Array<Claim>();
+        const claims = new Array<Claim>();
         for (let item in body)
             claims.push(new Claim(item, body[item]));    
         
@@ -153,15 +152,15 @@ export class JsonWebToken
     
     private toHex(obj: object): string
     {
-        let json = JSON.stringify(obj);
-        let hex = Buffer.from(json, "utf8").toString("hex");
+        const json = JSON.stringify(obj);
+        const hex = Buffer.from(json, "utf8").toString("hex");
         return hex.toUpperCase();
     }
     
     private static toObject(hex: string): object
     {
-        let json = Buffer.from(hex.toLowerCase(), "hex").toString("utf8");
-        let obj = JSON.parse(json);
+        const json = Buffer.from(hex.toLowerCase(), "hex").toString("utf8");
+        const obj = JSON.parse(json);
         return obj;
     }
 }

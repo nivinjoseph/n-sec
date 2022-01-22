@@ -1,5 +1,4 @@
 import { given } from "@nivinjoseph/n-defensive";
-import "@nivinjoseph/n-ext";
 import * as Crypto from "crypto";
 
 
@@ -9,10 +8,10 @@ export class Hmac
     private constructor() { }
     
     
-    public static create(key: string, value: string): Promise<string>
+    public static create(key: string, value: string): string
     {
-        given(key, "key").ensureHasValue().ensureIsString().ensure(t => !t.isEmptyOrWhiteSpace());
-        given(value, "value").ensureHasValue().ensureIsString().ensure(t => !t.isEmptyOrWhiteSpace());
+        given(key, "key").ensureHasValue().ensureIsString();
+        given(value, "value").ensureHasValue().ensureIsString();
         
         key = key.trim();
         value = value.trim();
@@ -20,6 +19,6 @@ export class Hmac
         const hmac = Crypto.createHmac("sha256", Buffer.from(key, "hex"));
         
         hmac.update(value, "utf8");
-        return Promise.resolve(hmac.digest("hex").toUpperCase());
+        return hmac.digest("hex").toUpperCase();
     }
 }

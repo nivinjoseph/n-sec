@@ -174,7 +174,7 @@ suite("SymmetricEncryption", () =>
             let key = await SymmetricEncryption.generateKey();
             let value = "password";
             let encrypted = await SymmetricEncryption.encrypt(key, value);
-            let decrypted = await SymmetricEncryption.decrypt(key, encrypted);
+            let decrypted = SymmetricEncryption.decrypt(key, encrypted);
             Assert.strictEqual(decrypted, value);
         });
           

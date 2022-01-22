@@ -1,7 +1,6 @@
 import * as Crypto from "crypto";
 import { CryptoException } from "./crypto-exception";
 import { given } from "@nivinjoseph/n-defensive";
-import "@nivinjoseph/n-ext";
 
 
 // public
@@ -29,14 +28,14 @@ export class SymmetricEncryption
     
     public static encrypt(key: string, value: string): Promise<string>
     {
-        given(key, "key").ensureHasValue().ensureIsString().ensure(t => !t.isEmptyOrWhiteSpace());
-        given(value, "value").ensureHasValue().ensureIsString().ensure(t => !t.isEmptyOrWhiteSpace());
-        
-        key = key.trim();
-        value = value.trim();
-        
         return new Promise<string>((resolve, reject) =>
         {
+            given(key, "key").ensureHasValue().ensureIsString();
+            given(value, "value").ensureHasValue().ensureIsString();
+
+            key = key.trim();
+            value = value.trim();
+            
             Crypto.randomBytes(16, (err, buf) =>
             {
                 if (err)
@@ -64,29 +63,22 @@ export class SymmetricEncryption
         
     }
     
-    public static decrypt(key: string, value: string): Promise<string>
+    public static decrypt(key: string, value: string): string
     {
-        given(key, "key").ensureHasValue().ensureIsString().ensure(t => !t.isEmptyOrWhiteSpace());
-        given(value, "value").ensureHasValue().ensureIsString().ensure(t => !t.isEmptyOrWhiteSpace());
+        given(key, "key").ensureHasValue().ensureIsString();
+        given(value, "value").ensureHasValue().ensureIsString();
 
         key = key.trim();
         value = value.trim();
         
-        try 
-        {
-            const splitted = value.split(".");
-            if (splitted.length !== 2)
-                throw new CryptoException("Invalid value.");
+        const splitted = value.split(".");
+        if (splitted.length !== 2)
+            throw new CryptoException("Invalid value.");
 
-            const iv = Buffer.from(splitted[1], "hex");
-            const deCipher = Crypto.createDecipheriv("AES-256-CBC", Buffer.from(key, "hex"), iv);
-            let decrypted = deCipher.update(splitted[0], "hex", "utf8");
-            decrypted += deCipher.final("utf8");
-            return Promise.resolve(decrypted);
-        }
-        catch (error)
-        {
-            return Promise.reject(error);
-        }
+        const iv = Buffer.from(splitted[1], "hex");
+        const deCipher = Crypto.createDecipheriv("AES-256-CBC", Buffer.from(key, "hex"), iv);
+        let decrypted = deCipher.update(splitted[0], "hex", "utf8");
+        decrypted += deCipher.final("utf8");
+        return decrypted;
     }
 }

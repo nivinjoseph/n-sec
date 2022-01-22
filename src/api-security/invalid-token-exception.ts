@@ -1,6 +1,5 @@
 import { Exception } from "@nivinjoseph/n-exception";
 import { given } from "@nivinjoseph/n-defensive";
-import "@nivinjoseph/n-ext";
 
 
 // public
@@ -16,8 +15,8 @@ export class InvalidTokenException extends Exception
     
     public constructor(token: string, reason: string)
     {
-        given(token, "token").ensureHasValue().ensure(t => !t.isEmptyOrWhiteSpace());
-        given(reason, "reason").ensureHasValue().ensure(t => !t.isEmptyOrWhiteSpace());
+        given(token, "token").ensureHasValue();
+        given(reason, "reason").ensureHasValue();
         
         token = token.trim();
         super(`Token '${token}' is invalid because ${reason}.`);

@@ -1,6 +1,5 @@
 import { Exception } from "@nivinjoseph/n-exception";
 import { given } from "@nivinjoseph/n-defensive";
-import "@nivinjoseph/n-ext";
 
 
 // public
@@ -14,7 +13,7 @@ export class ExpiredTokenException extends Exception
     
     public constructor(token: string)
     {
-        given(token, "token").ensureHasValue().ensure(t => !t.isEmptyOrWhiteSpace());
+        given(token, "token").ensureHasValue();
         token = token.trim();
         super(`Token '${token}' is expired.`);
         this._token = token;

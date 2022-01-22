@@ -11,7 +11,7 @@ suite("Hmac", () =>
         {
             let key = await SymmetricEncryption.generateKey();
             let value = "hello world";
-            let hmac = await Hmac.create(key, value);
+            let hmac = Hmac.create(key, value);
             Assert.ok(hmac !== null && !hmac.isEmptyOrWhiteSpace());
             Assert.notStrictEqual(hmac, key);
             Assert.notStrictEqual(hmac, value);
@@ -21,8 +21,8 @@ suite("Hmac", () =>
         {
             let key = await SymmetricEncryption.generateKey();
             let value = "hello world";
-            let hmac1 = await Hmac.create(key, value);
-            let hmac2 = await Hmac.create(key, value);
+            let hmac1 = Hmac.create(key, value);
+            let hmac2 = Hmac.create(key, value);
             Assert.strictEqual(hmac1, hmac2);
         });
         
@@ -30,11 +30,11 @@ suite("Hmac", () =>
         {
             let key1 = await SymmetricEncryption.generateKey();
             let value1 = "hello world";
-            let hmac1 = await Hmac.create(key1, value1);
+            let hmac1 = Hmac.create(key1, value1);
             
             let key2 = await SymmetricEncryption.generateKey();
             let value2 = "goodbye world";
-            let hmac2 = await Hmac.create(key2, value2);
+            let hmac2 = Hmac.create(key2, value2);
             Assert.notStrictEqual(hmac1, hmac2);
         });
         
@@ -43,8 +43,8 @@ suite("Hmac", () =>
             let key = await SymmetricEncryption.generateKey();
             let value1 = "hello world";
             let value2 = "goodbye world";
-            let hmac1 = await Hmac.create(key, value1);
-            let hmac2 = await Hmac.create(key, value2);
+            let hmac1 = Hmac.create(key, value1);
+            let hmac2 = Hmac.create(key, value2);
             Assert.notStrictEqual(hmac1, hmac2);
         });
         
@@ -53,8 +53,8 @@ suite("Hmac", () =>
             let key1 = await SymmetricEncryption.generateKey();
             let key2 = await SymmetricEncryption.generateKey();
             let value = "hello world";
-            let hmac1 = await Hmac.create(key1, value);
-            let hmac2 = await Hmac.create(key2, value);
+            let hmac1 = Hmac.create(key1, value);
+            let hmac2 = Hmac.create(key2, value);
             Assert.notStrictEqual(hmac1, hmac2);
         });
         

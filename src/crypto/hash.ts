@@ -1,5 +1,4 @@
 import { given } from "@nivinjoseph/n-defensive";
-import "@nivinjoseph/n-ext";
 import * as Crypto from "crypto";
 
 
@@ -9,21 +8,21 @@ export class Hash
     private constructor() { }
     
 
-    public static create(value: string): Promise<string>
+    public static create(value: string): string
     {
-        given(value, "value").ensureHasValue().ensureIsString().ensure(t => !t.isEmptyOrWhiteSpace());
+        given(value, "value").ensureHasValue().ensureIsString();
         
         value = value.trim();
         
         const hash = Crypto.createHash("sha512");
         hash.update(value, "utf8");
-        return Promise.resolve(hash.digest("hex").toUpperCase());
+        return hash.digest("hex").toUpperCase();
     }
     
-    public static createUsingSalt(value: string, salt: string): Promise<string>
+    public static createUsingSalt(value: string, salt: string): string
     {
-        given(value, "value").ensureHasValue().ensureIsString().ensure(t => !t.isEmptyOrWhiteSpace());
-        given(salt, "salt").ensureHasValue().ensureIsString().ensure(t => !t.isEmptyOrWhiteSpace());
+        given(value, "value").ensureHasValue().ensureIsString();
+        given(salt, "salt").ensureHasValue().ensureIsString();
 
         value = value.trim();
         salt = salt.trim();

@@ -17,8 +17,8 @@ suite("Json Web Token ", () =>
             let claim = new Claim("this_claim", "ThisValue");
             let key = await SymmetricEncryption.generateKey();
             let time = Date.now();
-            let token = await JsonWebToken.fromClaims("issuer1", 1, key, time + 10000000, [claim]).generateToken();
-            let jwt = await JsonWebToken.fromToken("issuer1", 1, key, token);
+            let token = JsonWebToken.fromClaims("issuer1", 1, key, time + 10000000, [claim]).generateToken();
+            let jwt = JsonWebToken.fromToken("issuer1", 1, key, token);
             Assert.ok(jwt !== null || jwt !== undefined);
             Assert.strictEqual(jwt.issuer, "issuer1");
             Assert.strictEqual(jwt.algType, 1);
@@ -32,8 +32,8 @@ suite("Json Web Token ", () =>
             let claim2 = new Claim("that_claim", "ThatValue");
             let key = await SymmetricEncryption.generateKey();
             let time = Date.now();
-            let token = await JsonWebToken.fromClaims("issuer1", 1, key, time + 10000000, [claim1, claim2]).generateToken();
-            let jwt = await JsonWebToken.fromToken("issuer1", 1, key, token);
+            let token = JsonWebToken.fromClaims("issuer1", 1, key, time + 10000000, [claim1, claim2]).generateToken();
+            let jwt = JsonWebToken.fromToken("issuer1", 1, key, token);
             Assert.ok(jwt !== null || jwt !== undefined);
             Assert.strictEqual(jwt.issuer, "issuer1");
             Assert.strictEqual(jwt.algType, 1);
@@ -47,8 +47,8 @@ suite("Json Web Token ", () =>
             let claim2 = new Claim("that_claim", "ThatValue");
             let key = await SymmetricEncryption.generateKey();
             let time = Date.now();
-            let token = await JsonWebToken.fromClaims("issuer1", 1, key, time + 10000000, [claim1, claim2]).generateToken();
-            let jwt = await JsonWebToken.fromToken("issuer1", 1, key, token);
+            let token = JsonWebToken.fromClaims("issuer1", 1, key, time + 10000000, [claim1, claim2]).generateToken();
+            let jwt = JsonWebToken.fromToken("issuer1", 1, key, token);
             Assert.ok(jwt !== null || jwt !== undefined);
             Assert.strictEqual(jwt.issuer, "issuer1");
             Assert.strictEqual(jwt.algType, 1);
@@ -62,10 +62,10 @@ suite("Json Web Token ", () =>
             let claim2 = new Claim("that_claim", "ThatValue");
             let key = await SymmetricEncryption.generateKey();
             let time = Date.now();
-            let token = await JsonWebToken.fromClaims("issuer1", 1, key, time + 10000000, [claim1, claim2]).generateToken();
+            let token = JsonWebToken.fromClaims("issuer1", 1, key, time + 10000000, [claim1, claim2]).generateToken();
             try
             {
-                await JsonWebToken.fromToken("notTheIssuer", 1, key, token);
+                JsonWebToken.fromToken("notTheIssuer", 1, key, token);
             }
             catch (exp)
             {
@@ -82,10 +82,10 @@ suite("Json Web Token ", () =>
             let claim2 = new Claim("that_claim", "ThatValue");
             let key = await SymmetricEncryption.generateKey();
             let time = Date.now();
-            let token = await JsonWebToken.fromClaims("issuer1", 1, key, time, [claim1, claim2]).generateToken();
+            let token = JsonWebToken.fromClaims("issuer1", 1, key, time, [claim1, claim2]).generateToken();
             try
             {
-                await JsonWebToken.fromToken("issuer1", 1, key, token);
+                JsonWebToken.fromToken("issuer1", 1, key, token);
             }
             catch (exp)
             {
@@ -96,25 +96,27 @@ suite("Json Web Token ", () =>
             Assert.ok(false);
         });
         
-        test("should throw an exception when getting JWT algorithm given is different than what was used for the token generation", async () =>
-        {
-            let claim1 = new Claim("this_claim", "ThisValue");
-            let claim2 = new Claim("that_claim", "ThatValue");
-            let key = await SymmetricEncryption.generateKey();
-            let time = Date.now();
-            let token = await JsonWebToken.fromClaims("issuer1", 1, key, time + 1000000, [claim1, claim2]).generateToken();
-            try
-            {
-                await JsonWebToken.fromToken("issuer1", 2, key, token);
-            }
-            catch (exp)
-            {
-                Assert.ok(exp instanceof InvalidTokenException);
-                Assert.equal(exp.message, `Token '${token}' is invalid because alg was expected to be '${2}' but instead was '${1}'.`);
-                return;
-            }
-            Assert.ok(false);
-        });
+        // TODO: right now we only support one alg type. When we support others, we should uncomment this test
+        // test("should throw an exception when getting JWT algorithm given is different than what was used for the token generation", async () =>
+        // {
+        //     let claim1 = new Claim("this_claim", "ThisValue");
+        //     let claim2 = new Claim("that_claim", "ThatValue");
+        //     let key = await SymmetricEncryption.generateKey();
+        //     let time = Date.now();
+        //     let token = JsonWebToken.fromClaims("issuer1", 1, key, time + 1000000, [claim1, claim2]).generateToken();
+        //     try
+        //     {
+        //         JsonWebToken.fromToken("issuer1", 2, key, token);
+        //     }
+        //     catch (exp)
+        //     {
+        //         console.log(exp);
+        //         Assert.ok(exp instanceof InvalidTokenException);
+        //         Assert.equal(exp.message, `Token '${token}' is invalid because alg was expected to be '${2}' but instead was '${1}'.`);
+        //         return;
+        //     }
+        //     Assert.ok(false);
+        // });
         
         test("should throw an exception when getting JWT key given is different than what was used for the token generation", async () =>
         {
@@ -123,10 +125,10 @@ suite("Json Web Token ", () =>
             let key = await SymmetricEncryption.generateKey();
             let key2 = await SymmetricEncryption.generateKey();
             let time = Date.now();
-            let token = await JsonWebToken.fromClaims("issuer1", 1, key, time + 1000000, [claim1, claim2]).generateToken();
+            let token = JsonWebToken.fromClaims("issuer1", 1, key, time + 1000000, [claim1, claim2]).generateToken();
             try
             {
-                await JsonWebToken.fromToken("issuer1", 1, key2, token);
+                JsonWebToken.fromToken("issuer1", 1, key2, token);
             }
             catch (exp)
             {
@@ -143,11 +145,11 @@ suite("Json Web Token ", () =>
             let claim2 = new Claim("that_claim", "ThatValue");
             let key = await SymmetricEncryption.generateKey();
             let time = Date.now();
-            let token = await JsonWebToken.fromClaims("issuer1", 1, key, time + 1000000, [claim1, claim2]).generateToken();
+            let token = JsonWebToken.fromClaims("issuer1", 1, key, time + 1000000, [claim1, claim2]).generateToken();
             token = token + "someStuff";
             try
             {
-                await JsonWebToken.fromToken("issuer1", 1, key, token);
+                JsonWebToken.fromToken("issuer1", 1, key, token);
             }
             catch (exp)
             {

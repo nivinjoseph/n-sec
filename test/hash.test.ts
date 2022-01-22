@@ -2,34 +2,33 @@ import * as Assert from "assert";
 import { Hash } from "./../src/index";
 import "@nivinjoseph/n-ext";
 // import { CryptoException } from "./../src/crypto-exception";
-import "@nivinjoseph/n-ext";
 
 suite("Hash", () =>
 {
     suite("create", () =>
     {
-        test("must return a string value that is not null, empty, whitespace or same as input when called with a valid input", async () =>
+        test("must return a string value that is not null, empty, whitespace or same as input when called with a valid input", () =>
         {
             let input = "hello world";
-            let hash = await Hash.create(input);
+            let hash = Hash.create(input);
             Assert.ok(hash !== null && !hash.isEmptyOrWhiteSpace());
             Assert.notStrictEqual(hash, input);
         });
         
-        test("multiple invocations with the same input must return the same output", async () =>
+        test("multiple invocations with the same input must return the same output", () =>
         {
             let input = "hello world";
-            let hash1 = await Hash.create(input);
-            let hash2 = await Hash.create(input);
+            let hash1 = Hash.create(input);
+            let hash2 = Hash.create(input);
             Assert.strictEqual(hash1, hash2);
         });
         
-        test("multiple invocations with the different inputs must return different outputs", async () =>
+        test("multiple invocations with the different inputs must return different outputs", () =>
         {
             let input1 = "hello world";
-            let hash1 = await Hash.create(input1);
+            let hash1 = Hash.create(input1);
             let input2 = "goodbye world";
-            let hash2 = await Hash.create(input2);
+            let hash2 = Hash.create(input2);
             Assert.notStrictEqual(hash1, hash2);
         });
         
@@ -92,58 +91,58 @@ suite("Hash", () =>
     
     suite("createUsingSalt", () =>
     {
-        test("must return a string value that is not null, empty, whitespace or same as input or salt when called with a valid input and salt", async () =>
+        test("must return a string value that is not null, empty, whitespace or same as input or salt when called with a valid input and salt", () =>
         {
             let input = "hello world";
             let salt = "salt";
-            let hash = await Hash.createUsingSalt(input, salt);
+            let hash = Hash.createUsingSalt(input, salt);
             Assert.ok(hash !== null && !hash.isEmptyOrWhiteSpace());
             Assert.notStrictEqual(hash, input);
             Assert.notStrictEqual(hash, salt);
         });
 
-        test("multiple invocations with the same input and salt must return the same output", async () =>
+        test("multiple invocations with the same input and salt must return the same output", () =>
         {
             let input = "hello world";
             let salt = "salt";
-            let hash1 = await Hash.createUsingSalt(input, salt);
-            let hash2 = await Hash.createUsingSalt(input, salt);
+            let hash1 = Hash.createUsingSalt(input, salt);
+            let hash2 = Hash.createUsingSalt(input, salt);
             Assert.strictEqual(hash1, hash2);
         });
 
-        test("multiple invocations with different inputs and different salts must return different outputs", async () =>
+        test("multiple invocations with different inputs and different salts must return different outputs", () =>
         {
             let input1 = "hello world";
             let salt1 = "salt-1";
-            let hash1 = await Hash.createUsingSalt(input1, salt1);
+            let hash1 = Hash.createUsingSalt(input1, salt1);
             
             let input2 = "goodbye world";
             let salt2 = "salt-2";
-            let hash2 = await Hash.createUsingSalt(input2, salt2);
+            let hash2 = Hash.createUsingSalt(input2, salt2);
             
             Assert.notStrictEqual(hash1, hash2);
         });
         
-        test("multiple invocations with different inputs and the same salt must return different outputs", async () =>
+        test("multiple invocations with different inputs and the same salt must return different outputs", () =>
         {
             let input1 = "hello world";
             let salt1 = "salt-1";
-            let hash1 = await Hash.createUsingSalt(input1, salt1);
+            let hash1 = Hash.createUsingSalt(input1, salt1);
 
             let input2 = "goodbye world";
-            let hash2 = await Hash.createUsingSalt(input2, salt1);
+            let hash2 = Hash.createUsingSalt(input2, salt1);
 
             Assert.notStrictEqual(hash1, hash2);
         });
         
-        test("multiple invocations with the same input and different salts must return different outputs", async () =>
+        test("multiple invocations with the same input and different salts must return different outputs", () =>
         {
             let input = "hello world";
             let salt1 = "salt-1";
-            let hash1 = await Hash.createUsingSalt(input, salt1);
+            let hash1 = Hash.createUsingSalt(input, salt1);
 
             let salt2 = "salt-2";
-            let hash2 = await Hash.createUsingSalt(input, salt2);
+            let hash2 = Hash.createUsingSalt(input, salt2);
 
             Assert.notStrictEqual(hash1, hash2);
         });

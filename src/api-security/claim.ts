@@ -1,5 +1,4 @@
 import { given } from "@nivinjoseph/n-defensive";
-import "@nivinjoseph/n-ext";
 
 
 // public
@@ -15,7 +14,7 @@ export class Claim
     
     public constructor(type: string, value: any)
     {
-        given(type, "type").ensureHasValue().ensure(t => !t.isEmptyOrWhiteSpace());
+        given(type, "type").ensureHasValue();
         
         this._type = type.trim();
         this._value = value;
