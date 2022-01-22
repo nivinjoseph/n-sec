@@ -1,4 +1,3 @@
-import "@nivinjoseph/n-ext";
 export declare class Claim {
     private readonly _type;
     private readonly _value;

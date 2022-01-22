@@ -1,5 +1,4 @@
 import { Claim } from "./claim";
-import "@nivinjoseph/n-ext";
 import { AlgType } from "./alg-type";
 export declare class JsonWebToken {
     private readonly _issuer;
@@ -16,9 +15,9 @@ export declare class JsonWebToken {
     get isExpired(): boolean;
     get claims(): ReadonlyArray<Claim>;
     private constructor();
-    generateToken(): Promise<string>;
+    generateToken(): string;
     static fromClaims(issuer: string, algType: AlgType, key: string, expiry: number, claims: Array<Claim>): JsonWebToken;
-    static fromToken(issuer: string, algType: AlgType, key: string, token: string): Promise<JsonWebToken>;
+    static fromToken(issuer: string, algType: AlgType, key: string, token: string): JsonWebToken;
     private toHex;
     private static toObject;
 }

@@ -4,7 +4,6 @@ exports.SymmetricEncryption = void 0;
 const Crypto = require("crypto");
 const crypto_exception_1 = require("./crypto-exception");
 const n_defensive_1 = require("@nivinjoseph/n-defensive");
-require("@nivinjoseph/n-ext");
 class SymmetricEncryption {
     constructor() { }
     static generateKey() {
@@ -19,11 +18,11 @@ class SymmetricEncryption {
         });
     }
     static encrypt(key, value) {
-        n_defensive_1.given(key, "key").ensureHasValue().ensureIsString().ensure(t => !t.isEmptyOrWhiteSpace());
-        n_defensive_1.given(value, "value").ensureHasValue().ensureIsString().ensure(t => !t.isEmptyOrWhiteSpace());
-        key = key.trim();
-        value = value.trim();
         return new Promise((resolve, reject) => {
+            n_defensive_1.given(key, "key").ensureHasValue().ensureIsString();
+            n_defensive_1.given(value, "value").ensureHasValue().ensureIsString();
+            key = key.trim();
+            value = value.trim();
             Crypto.randomBytes(16, (err, buf) => {
                 if (err) {
                     reject(err);
@@ -44,23 +43,18 @@ class SymmetricEncryption {
         });
     }
     static decrypt(key, value) {
-        n_defensive_1.given(key, "key").ensureHasValue().ensureIsString().ensure(t => !t.isEmptyOrWhiteSpace());
-        n_defensive_1.given(value, "value").ensureHasValue().ensureIsString().ensure(t => !t.isEmptyOrWhiteSpace());
+        n_defensive_1.given(key, "key").ensureHasValue().ensureIsString();
+        n_defensive_1.given(value, "value").ensureHasValue().ensureIsString();
         key = key.trim();
         value = value.trim();
-        try {
-            const splitted = value.split(".");
-            if (splitted.length !== 2)
-                throw new crypto_exception_1.CryptoException("Invalid value.");
-            const iv = Buffer.from(splitted[1], "hex");
-            const deCipher = Crypto.createDecipheriv("AES-256-CBC", Buffer.from(key, "hex"), iv);
-            let decrypted = deCipher.update(splitted[0], "hex", "utf8");
-            decrypted += deCipher.final("utf8");
-            return Promise.resolve(decrypted);
-        }
-        catch (error) {
-            return Promise.reject(error);
-        }
+        const splitted = value.split(".");
+        if (splitted.length !== 2)
+            throw new crypto_exception_1.CryptoException("Invalid value.");
+        const iv = Buffer.from(splitted[1], "hex");
+        const deCipher = Crypto.createDecipheriv("AES-256-CBC", Buffer.from(key, "hex"), iv);
+        let decrypted = deCipher.update(splitted[0], "hex", "utf8");
+        decrypted += deCipher.final("utf8");
+        return decrypted;
     }
 }
 exports.SymmetricEncryption = SymmetricEncryption;
