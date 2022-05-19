@@ -5,16 +5,16 @@ import { given } from "@nivinjoseph/n-defensive";
 export class Claim
 {
     private readonly _type: string;
-    private readonly _value: any;
+    private readonly _value: unknown;
     
     
     public get type(): string { return this._type; }
-    public get value(): any { return this._value; }
+    public get value(): unknown { return this._value; }
     
     
-    public constructor(type: string, value: any)
+    public constructor(type: string, value: unknown)
     {
-        given(type, "type").ensureHasValue();
+        given(type, "type").ensureHasValue().ensureIsString();
         
         this._type = type.trim();
         this._value = value;
@@ -23,6 +23,7 @@ export class Claim
     
     public equals(claim: Claim): boolean
     {
+        // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
         if (claim == null)
             return false;
 

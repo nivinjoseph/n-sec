@@ -3,9 +3,9 @@
         "module": "commonjs",
         "target": "es2015",
         "strict": true,
-        "strictNullChecks": false,
-        "strictFunctionTypes": false,
-        "noImplicitThis": false,
+        "strictNullChecks": true,
+        "strictFunctionTypes": true,
+        "noImplicitThis": true,
         "noImplicitReturns": true,
         "noUnusedLocals": true,
         "noUnusedParameters": true,
@@ -14,16 +14,13 @@
         "sourceMap": true,
         "experimentalDecorators": true,
         "emitDecoratorMetadata": true,
-        "removeComments": true,
+        "removeComments": false,
         "forceConsistentCasingInFileNames": true,
         "incremental": false,
+        "skipLibCheck": true,
+        "importHelpers": true,
+        "noEmitHelpers": true,
         "noImplicitOverride": true,
-        "plugins": [
-            {
-                "name": "typescript-tslint-plugin",
-                "configFile": "./tslint.json",
-                "alwaysShowRuleFailuresAsWarnings": false
-            }
-        ]
+        "pretty": true
     }
 }

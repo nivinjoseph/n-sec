@@ -11,7 +11,6 @@ export class Hash
     public static create(value: string): string
     {
         given(value, "value").ensureHasValue().ensureIsString();
-        
         value = value.trim();
         
         const hash = Crypto.createHash("sha512");
@@ -27,7 +26,7 @@ export class Hash
         value = value.trim();
         salt = salt.trim();
         
-        const reverse = (val: string) =>
+        const reverse = (val: string): string =>
         {
             let rev = "";
             for (let i = 0; i < val.length; i++)

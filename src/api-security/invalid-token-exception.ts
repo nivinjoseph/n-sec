@@ -15,8 +15,8 @@ export class InvalidTokenException extends Exception
     
     public constructor(token: string, reason: string)
     {
-        given(token, "token").ensureHasValue();
-        given(reason, "reason").ensureHasValue();
+        given(token, "token").ensureHasValue().ensureIsString();
+        given(reason, "reason").ensureHasValue().ensureIsString();
         
         token = token.trim();
         super(`Token '${token}' is invalid because ${reason}.`);

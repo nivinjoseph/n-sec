@@ -10,16 +10,17 @@ suite("SymmetricEncryption", () =>
     { 
         test("must return string value that is not null, empty or whitespace", async () =>
         {
-            let key = await SymmetricEncryption.generateKey();
+            const key = await SymmetricEncryption.generateKey();
             console.log("key", key);
+            // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
             Assert.ok(key !== null && !key.isEmptyOrWhiteSpace());
         });
         
         
         test("consecutive calls must yield unique values", async () =>
         {
-            let key1 = await SymmetricEncryption.generateKey();
-            let key2 = await SymmetricEncryption.generateKey();
+            const key1 = await SymmetricEncryption.generateKey();
+            const key2 = await SymmetricEncryption.generateKey();
             Assert.notStrictEqual(key1, key2);
         });
     });    
@@ -28,9 +29,10 @@ suite("SymmetricEncryption", () =>
     { 
         test("must return cipher text value when called with key and plain text value", async () =>
         {
-            let key = "E25B269440F88601C453CD171D76EDDC11D8CF33230742DF8CAD5873D28F78B2";
-            let value = "password";
-            let encrypted = await SymmetricEncryption.encrypt(key, value);
+            const key = "E25B269440F88601C453CD171D76EDDC11D8CF33230742DF8CAD5873D28F78B2";
+            const value = "password";
+            const encrypted = await SymmetricEncryption.encrypt(key, value);
+            // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
             Assert.ok(encrypted !== null);
             Assert.notStrictEqual(encrypted, value);
         });
@@ -171,10 +173,10 @@ suite("SymmetricEncryption", () =>
     {
         test("must return plain text value when called with key and cipher text value", async () =>
         {
-            let key = await SymmetricEncryption.generateKey();
-            let value = "password";
-            let encrypted = await SymmetricEncryption.encrypt(key, value);
-            let decrypted = SymmetricEncryption.decrypt(key, encrypted);
+            const key = await SymmetricEncryption.generateKey();
+            const value = "password";
+            const encrypted = await SymmetricEncryption.encrypt(key, value);
+            const decrypted = SymmetricEncryption.decrypt(key, encrypted);
             Assert.strictEqual(decrypted, value);
         });
           

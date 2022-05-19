@@ -13,7 +13,7 @@ export class ClaimsIdentity
 
     public constructor(claims: ReadonlyArray<Claim>)
     {
-        given(claims, "claims").ensureHasValue();
+        given(claims, "claims").ensureHasValue().ensureIsArray();
 
         this._claims = [...claims];
     }

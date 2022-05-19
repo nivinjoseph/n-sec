@@ -14,11 +14,12 @@ suite("Json Web Token ", () =>
     
         test("should successfully create a token using hmac with one claim", async () =>
         {
-            let claim = new Claim("this_claim", "ThisValue");
-            let key = await SymmetricEncryption.generateKey();
-            let time = Date.now();
-            let token = JsonWebToken.fromClaims("issuer1", 1, key, time + 10000000, [claim]).generateToken();
-            let jwt = JsonWebToken.fromToken("issuer1", 1, key, token);
+            const claim = new Claim("this_claim", "ThisValue");
+            const key = await SymmetricEncryption.generateKey();
+            const time = Date.now();
+            const token = JsonWebToken.fromClaims("issuer1", 1, key, time + 10000000, [claim]).generateToken();
+            const jwt = JsonWebToken.fromToken("issuer1", 1, key, token);
+            // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
             Assert.ok(jwt !== null || jwt !== undefined);
             Assert.strictEqual(jwt.issuer, "issuer1");
             Assert.strictEqual(jwt.algType, 1);
@@ -28,12 +29,13 @@ suite("Json Web Token ", () =>
 
         test("should successfully create a token using hmac with 2 claims", async () =>
         {
-            let claim1 = new Claim("this_claim", "ThisValue");
-            let claim2 = new Claim("that_claim", "ThatValue");
-            let key = await SymmetricEncryption.generateKey();
-            let time = Date.now();
-            let token = JsonWebToken.fromClaims("issuer1", 1, key, time + 10000000, [claim1, claim2]).generateToken();
-            let jwt = JsonWebToken.fromToken("issuer1", 1, key, token);
+            const claim1 = new Claim("this_claim", "ThisValue");
+            const claim2 = new Claim("that_claim", "ThatValue");
+            const key = await SymmetricEncryption.generateKey();
+            const time = Date.now();
+            const token = JsonWebToken.fromClaims("issuer1", 1, key, time + 10000000, [claim1, claim2]).generateToken();
+            const jwt = JsonWebToken.fromToken("issuer1", 1, key, token);
+            // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
             Assert.ok(jwt !== null || jwt !== undefined);
             Assert.strictEqual(jwt.issuer, "issuer1");
             Assert.strictEqual(jwt.algType, 1);
@@ -43,12 +45,13 @@ suite("Json Web Token ", () =>
 
         test("should successfully create a token using hmac with 2 claims", async () =>
         {
-            let claim1 = new Claim("this_claim", "ThisValue");
-            let claim2 = new Claim("that_claim", "ThatValue");
-            let key = await SymmetricEncryption.generateKey();
-            let time = Date.now();
-            let token = JsonWebToken.fromClaims("issuer1", 1, key, time + 10000000, [claim1, claim2]).generateToken();
-            let jwt = JsonWebToken.fromToken("issuer1", 1, key, token);
+            const claim1 = new Claim("this_claim", "ThisValue");
+            const claim2 = new Claim("that_claim", "ThatValue");
+            const key = await SymmetricEncryption.generateKey();
+            const time = Date.now();
+            const token = JsonWebToken.fromClaims("issuer1", 1, key, time + 10000000, [claim1, claim2]).generateToken();
+            const jwt = JsonWebToken.fromToken("issuer1", 1, key, token);
+            // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
             Assert.ok(jwt !== null || jwt !== undefined);
             Assert.strictEqual(jwt.issuer, "issuer1");
             Assert.strictEqual(jwt.algType, 1);
@@ -58,11 +61,11 @@ suite("Json Web Token ", () =>
 
         test("should throw an exception when getting JWT with a different issuer that what was user to generate token", async () =>
         {
-            let claim1 = new Claim("this_claim", "ThisValue");
-            let claim2 = new Claim("that_claim", "ThatValue");
-            let key = await SymmetricEncryption.generateKey();
-            let time = Date.now();
-            let token = JsonWebToken.fromClaims("issuer1", 1, key, time + 10000000, [claim1, claim2]).generateToken();
+            const claim1 = new Claim("this_claim", "ThisValue");
+            const claim2 = new Claim("that_claim", "ThatValue");
+            const key = await SymmetricEncryption.generateKey();
+            const time = Date.now();
+            const token = JsonWebToken.fromClaims("issuer1", 1, key, time + 10000000, [claim1, claim2]).generateToken();
             try
             {
                 JsonWebToken.fromToken("notTheIssuer", 1, key, token);
@@ -78,11 +81,11 @@ suite("Json Web Token ", () =>
         
         test("should throw an exception when getting JWT when the token is expired", async () =>
         {
-            let claim1 = new Claim("this_claim", "ThisValue");
-            let claim2 = new Claim("that_claim", "ThatValue");
-            let key = await SymmetricEncryption.generateKey();
-            let time = Date.now();
-            let token = JsonWebToken.fromClaims("issuer1", 1, key, time, [claim1, claim2]).generateToken();
+            const claim1 = new Claim("this_claim", "ThisValue");
+            const claim2 = new Claim("that_claim", "ThatValue");
+            const key = await SymmetricEncryption.generateKey();
+            const time = Date.now();
+            const token = JsonWebToken.fromClaims("issuer1", 1, key, time, [claim1, claim2]).generateToken();
             try
             {
                 JsonWebToken.fromToken("issuer1", 1, key, token);
@@ -120,12 +123,12 @@ suite("Json Web Token ", () =>
         
         test("should throw an exception when getting JWT key given is different than what was used for the token generation", async () =>
         {
-            let claim1 = new Claim("this_claim", "ThisValue");
-            let claim2 = new Claim("that_claim", "ThatValue");
-            let key = await SymmetricEncryption.generateKey();
-            let key2 = await SymmetricEncryption.generateKey();
-            let time = Date.now();
-            let token = JsonWebToken.fromClaims("issuer1", 1, key, time + 1000000, [claim1, claim2]).generateToken();
+            const claim1 = new Claim("this_claim", "ThisValue");
+            const claim2 = new Claim("that_claim", "ThatValue");
+            const key = await SymmetricEncryption.generateKey();
+            const key2 = await SymmetricEncryption.generateKey();
+            const time = Date.now();
+            const token = JsonWebToken.fromClaims("issuer1", 1, key, time + 1000000, [claim1, claim2]).generateToken();
             try
             {
                 JsonWebToken.fromToken("issuer1", 1, key2, token);
@@ -141,10 +144,10 @@ suite("Json Web Token ", () =>
         
         test("should throw an exception when getting JWT when the token is tampered with", async () =>
         {
-            let claim1 = new Claim("this_claim", "ThisValue");
-            let claim2 = new Claim("that_claim", "ThatValue");
-            let key = await SymmetricEncryption.generateKey();
-            let time = Date.now();
+            const claim1 = new Claim("this_claim", "ThisValue");
+            const claim2 = new Claim("that_claim", "ThatValue");
+            const key = await SymmetricEncryption.generateKey();
+            const time = Date.now();
             let token = JsonWebToken.fromClaims("issuer1", 1, key, time + 1000000, [claim1, claim2]).generateToken();
             token = token + "someStuff";
             try

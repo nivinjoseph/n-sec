@@ -13,7 +13,7 @@ export class ExpiredTokenException extends Exception
     
     public constructor(token: string)
     {
-        given(token, "token").ensureHasValue();
+        given(token, "token").ensureHasValue().ensureIsString();
         token = token.trim();
         super(`Token '${token}' is expired.`);
         this._token = token;

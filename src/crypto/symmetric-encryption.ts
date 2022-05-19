@@ -59,8 +59,6 @@ export class SymmetricEncryption
                 }
             });
         });
-        
-        
     }
     
     public static decrypt(key: string, value: string): string
