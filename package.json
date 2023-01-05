@@ -17,6 +17,7 @@
         "test-ci": "mocha --timeout 5000 --reporter spec --ui tdd --require ts-node/register './test/**/*.test.js'",
         "publish-package": "npm run ts-build-dist && git add . && git commit -m 'preparing to publish new version' && npm version patch && git push && npm publish --access=public"
     },
+    "bin": "./dist/bin.js",
     "repository": {
         "type": "git",
         "url": "git+https://github.com/nivinjoseph/n-sec.git"
@@ -44,6 +45,7 @@
     "dependencies": {
         "@nivinjoseph/n-defensive": "^1.0.41",
         "@nivinjoseph/n-exception": "^1.0.26",
-        "@nivinjoseph/n-ext": "^1.1.36"
+        "@nivinjoseph/n-ext": "^1.1.36",
+        "@nivinjoseph/n-util": "^1.0.81"
     }
 }
