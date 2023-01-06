@@ -149,6 +149,21 @@ suite("Hash", () =>
             Assert.notStrictEqual(hash1, hash2);
         });
         
+        test("regex issue", () =>
+        {
+            let password = "YQAt3TPI7s1YXyClbQ2$&JdHOKZJ@z4!";
+            password = password.trim();
+
+            const createdAt = Date.now();
+            const username = "defaultUser";
+            
+            const salt = (createdAt % 2) === 0
+                ? `${username.base64Decode()}${createdAt}`
+                : `${createdAt}${username.base64Decode()}`;
+
+            return Hash.createUsingSalt(password, salt);
+        });
+        
         
         
         

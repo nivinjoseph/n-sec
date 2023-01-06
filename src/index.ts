@@ -1,3 +1,5 @@
+import "@nivinjoseph/n-ext";
+
 import { SymmetricEncryption } from "./crypto/symmetric-encryption";
 import { Hmac } from "./crypto/hmac";
 import { Hash } from "./crypto/hash";
