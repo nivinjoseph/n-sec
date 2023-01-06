@@ -37,7 +37,9 @@ export class Hash
         const valueReverse = reverse(value);
         const saltReverse = reverse(salt);
 
-        const saltedValue = "{1}{0}{2}{1}{3}{1}{2}".format(value, salt, valueReverse, saltReverse);
+        // const saltedValue = "{1}{0}{2}{1}{3}{1}{2}".format(value, salt, valueReverse, saltReverse);
+        
+        const saltedValue = `${salt}${value}${valueReverse}${salt}${saltReverse}${salt}${valueReverse}`;
         
         return Hash.create(saltedValue);
     }
