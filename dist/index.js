@@ -1,6 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.SecurityToken = exports.JsonWebToken = exports.InvalidTokenException = exports.ExpiredTokenException = exports.ClaimsIdentity = exports.Claim = exports.AlgType = exports.CryptoException = exports.Hash = exports.Hmac = exports.SymmetricEncryption = void 0;
+require("@nivinjoseph/n-ext");
 const symmetric_encryption_1 = require("./crypto/symmetric-encryption");
 Object.defineProperty(exports, "SymmetricEncryption", { enumerable: true, get: function () { return symmetric_encryption_1.SymmetricEncryption; } });
 const hmac_1 = require("./crypto/hmac");
