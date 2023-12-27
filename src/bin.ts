@@ -2,7 +2,7 @@
 
 // import { given } from "@nivinjoseph/n-defensive";
 import { TypeHelper } from "@nivinjoseph/n-util";
-import { SymmetricEncryption } from "./crypto/symmetric-encryption";
+import { SymmetricEncryption } from "./crypto/symmetric-encryption.js";
 
 enum SupportedCommands
 {
