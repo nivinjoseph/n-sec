@@ -4,11 +4,11 @@
 // import "@nivinjoseph/n-ext";
 
 
-// suite("digitalSignature", () =>
+// await describe("digitalSignature", () =>
 // {
-//     suite("sign", () =>
+//     await describe("sign", () =>
 //     {   
-//         test("should return string value thats is not null, empty, whitespace, same as value or key pair when invoked with key pair and value", async () =>
+//         await test("should return string value thats is not null, empty, whitespace, same as value or key pair when invoked with key pair and value", async () =>
 //         {
 //             let keyPair = await AsymmetricEncryption.generateKeyPair();
 //             let value = "some value";
@@ -19,7 +19,7 @@
 //         });
         
         
-//         // test("should throw CryptoException when KeyPair is null", async () =>
+//         // await test("should throw CryptoException when KeyPair is null", async () =>
 //         // {
 //         //     try
 //         //     {
@@ -34,7 +34,7 @@
 //         //     assert.ok(false);
 //         // });
         
-//         // test("should throw CryptoException when KeyPair is undefined", async () =>
+//         // await test("should throw CryptoException when KeyPair is undefined", async () =>
 //         // {
 //         //     try
 //         //     {
@@ -49,7 +49,7 @@
 //         //     assert.ok(false);
 //         // });
         
-//         // test("should throw CryptoException when value is null", async () =>
+//         // await test("should throw CryptoException when value is null", async () =>
 //         // {
 //         //     let keyPair = await AsymmetricEncryption.generateKeyPair();
 //         //     try
@@ -65,7 +65,7 @@
 //         //     assert.ok(false);
 //         // });
         
-//         // test("should throw CryptoException when value is undefined", async () =>
+//         // await test("should throw CryptoException when value is undefined", async () =>
 //         // {
 //         //     let keyPair = await AsymmetricEncryption.generateKeyPair();
 //         //     try
@@ -81,7 +81,7 @@
 //         //     assert.ok(false);
 //         // });
         
-//         // test("should throw CryptoException when value is empty string", async () =>
+//         // await test("should throw CryptoException when value is empty string", async () =>
 //         // {
 //         //     let keyPair = await AsymmetricEncryption.generateKeyPair();
 //         //     try
@@ -97,7 +97,7 @@
 //         //     assert.ok(false);
 //         // });
         
-//         // test("should throw CryptoException when keyPair is empty string", async () =>
+//         // await test("should throw CryptoException when keyPair is empty string", async () =>
 //         // {
 //         //     try
 //         //     {
@@ -113,9 +113,9 @@
 //         // });
 //     });
     
-//     suite("verify", () =>
+//     await describe("verify", () =>
 //     {
-//         test("should return true when called with public key of key pair, value and signature of value generated using key pair", async () =>
+//         await test("should return true when called with public key of key pair, value and signature of value generated using key pair", async () =>
 //         {
 //             let keyPair = await AsymmetricEncryption.generateKeyPair();
 //             let publicKey = await AsymmetricEncryption.getPublicKey(keyPair);
@@ -125,7 +125,7 @@
 //             Assert.strictEqual(verification, true);
 //         });
         
-//         test("should return false when called with unrelated public key, value and signature", async () =>
+//         await test("should return false when called with unrelated public key, value and signature", async () =>
 //         {
 //             let keyPair1 = await AsymmetricEncryption.generateKeyPair();
 //             let keyPair2 = await AsymmetricEncryption.generateKeyPair();
@@ -136,7 +136,7 @@
 //             Assert.strictEqual(verification, false);
 //         });
         
-//         test("should return false when called with tampered value", async () =>
+//         await test("should return false when called with tampered value", async () =>
 //         {
 //             let keyPair = await AsymmetricEncryption.generateKeyPair();
 //             let publicKey = await AsymmetricEncryption.getPublicKey(keyPair);
@@ -147,7 +147,7 @@
 //             Assert.strictEqual(verification, false);
 //         });
         
-//         test("should return false when called with a tampered signature", async () =>
+//         await test("should return false when called with a tampered signature", async () =>
 //         {
 //             let keyPair = await AsymmetricEncryption.generateKeyPair();
 //             let publicKey = await AsymmetricEncryption.getPublicKey(keyPair);
@@ -160,7 +160,7 @@
         
         
         
-//         // test("successfully verify the signed", async () =>
+//         // await test("successfully verify the signed", async () =>
 //         // {
 //         //     let keyPair = await AsymmetricEncryption.generateKeyPair();
 //         //     let publicKey = await AsymmetricEncryption.getPublicKey(keyPair);
@@ -169,7 +169,7 @@
 //         //     Assert.ok(verify);
 //         // });
         
-//         // test("un-verify modified signature", async () =>
+//         // await test("un-verify modified signature", async () =>
 //         // {
 //         //     let keyPair = await AsymmetricEncryption.generateKeyPair();
 //         //     let publicKey = await AsymmetricEncryption.getPublicKey(keyPair);
@@ -179,7 +179,7 @@
 //         //     Assert.ok(!verify);
 //         // });
         
-//         // test("un-verify when wrong public key is given", async () =>
+//         // await test("un-verify when wrong public key is given", async () =>
 //         // {
 //         //     let keyPair = await AsymmetricEncryption.generateKeyPair();
 //         //     let signature = await DigitalSignature.sign(keyPair, "some-string");
@@ -189,7 +189,7 @@
 //         //     Assert.ok(!verify);
 //         // });
         
-//         // test("should throw CryptoException when public key is null", async () =>
+//         // await test("should throw CryptoException when public key is null", async () =>
 //         // {
 //         //     let keyPair = await AsymmetricEncryption.generateKeyPair();
 //         //     let signature = await DigitalSignature.sign(keyPair, "some-string");
@@ -206,7 +206,7 @@
 //         //     Assert.ok(false);
 //         // });
         
-//         // test("should throw CryptoException when value is null", async () =>
+//         // await test("should throw CryptoException when value is null", async () =>
 //         // {
 //         //     let keyPair = await AsymmetricEncryption.generateKeyPair();
 //         //     let signature = await DigitalSignature.sign(keyPair, "some-string");
@@ -224,7 +224,7 @@
 //         //     Assert.ok(false);
 //         // });
         
-//         // test("should throw CryptoException when value is empty string", async () =>
+//         // await test("should throw CryptoException when value is empty string", async () =>
 //         // {
 //         //     let keyPair = await AsymmetricEncryption.generateKeyPair();
 //         //     let signature = await DigitalSignature.sign(keyPair, "some-string");
@@ -242,7 +242,7 @@
 //         //     Assert.ok(false);
 //         // });
         
-//         // test("should throw CryptoException when signature is null", async () =>
+//         // await test("should throw CryptoException when signature is null", async () =>
 //         // {
 //         //     let keyPair = await AsymmetricEncryption.generateKeyPair();
 //         //     let publicKey = await AsymmetricEncryption.getPublicKey(keyPair);
@@ -259,7 +259,7 @@
 //         //     Assert.ok(false);
 //         // });
         
-//         // test("should throw CryptoException when value, key pair and signature are all null", async () =>
+//         // await test("should throw CryptoException when value, key pair and signature are all null", async () =>
 //         // {
 //         //     try
 //         //     {

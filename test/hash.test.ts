@@ -1,49 +1,50 @@
-import * as Assert from "assert";
-import { Hash } from "./../src/index";
+import { describe, test } from "node:test";
+import assert from "node:assert";
+import { Hash } from "./../src/index.js";
 import "@nivinjoseph/n-ext";
 // import { CryptoException } from "./../src/crypto-exception";
 
-suite("Hash", () =>
+await describe("Hash", async () =>
 {
-    suite("create", () =>
+    await describe("create", async () =>
     {
-        test("must return a string value that is not null, empty, whitespace or same as input when called with a valid input", () =>
+        await test("must return a string value that is not null, empty, whitespace or same as input when called with a valid input", () =>
         {
             const input = "hello world";
             const hash = Hash.create(input);
             // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
-            Assert.ok(hash !== null && !hash.isEmptyOrWhiteSpace());
-            Assert.notStrictEqual(hash, input);
+            assert.ok(hash !== null && !hash.isEmptyOrWhiteSpace());
+            assert.notStrictEqual(hash, input);
         });
-        
-        test("multiple invocations with the same input must return the same output", () =>
+
+        await test("multiple invocations with the same input must return the same output", () =>
         {
             const input = "hello world";
             const hash1 = Hash.create(input);
             const hash2 = Hash.create(input);
-            Assert.strictEqual(hash1, hash2);
+            assert.strictEqual(hash1, hash2);
         });
-        
-        test("multiple invocations with the different inputs must return different outputs", () =>
+
+        await test("multiple invocations with the different inputs must return different outputs", () =>
         {
             const input1 = "hello world";
             const hash1 = Hash.create(input1);
             const input2 = "goodbye world";
             const hash2 = Hash.create(input2);
-            Assert.notStrictEqual(hash1, hash2);
+            assert.notStrictEqual(hash1, hash2);
         });
-        
-        
-        // test("successfully create a hash twice with different values", async () =>
+
+
+        // await test("successfully create a hash twice with different values", async () =>
         // {
         //     let hash1 = await Hash.create("hello world");
         //     let hash2 = await Hash.create("hello world2");
-        //     Assert.ok(hash1 !== null && !hash1.isEmptyOrWhiteSpace());
-        //     Assert.ok(hash2 !== null && !hash2.isEmptyOrWhiteSpace());
-        //     Assert.notStrictEqual(hash1, hash2);
+        //     assert.ok(hash1 !== null && !hash1.isEmptyOrWhiteSpace());
+        //     assert.ok(hash2 !== null && !hash2.isEmptyOrWhiteSpace());
+        //     assert.notStrictEqual(hash1, hash2);
         // });
-        
-        // test("should throw CryptoException when value is null", async () =>
+
+        // await test("should throw CryptoException when value is null", async () =>
         // {
         //     try
         //     {
@@ -51,14 +52,14 @@ suite("Hash", () =>
         //     }
         //     catch (exception)
         //     {
-        //         Assert.ok(exception instanceof CryptoException);
-        //         Assert.strictEqual(exception.message, "Parameter count mismatch.");
+        //         assert.ok(exception instanceof CryptoException);
+        //         assert.strictEqual(exception.message, "Parameter count mismatch.");
         //         return;
         //     }
-        //     Assert.ok(false);
+        //     assert.ok(false);
         // });
-        
-        // test("should throw CryptoException when value is undefined", async () =>
+
+        // await test("should throw CryptoException when value is undefined", async () =>
         // {
         //     try
         //     {
@@ -66,14 +67,14 @@ suite("Hash", () =>
         //     }
         //     catch (exception)
         //     {
-        //         Assert.ok(exception instanceof CryptoException);
-        //         Assert.strictEqual(exception.message, "Parameter count mismatch.");
+        //         assert.ok(exception instanceof CryptoException);
+        //         assert.strictEqual(exception.message, "Parameter count mismatch.");
         //         return;
         //     }
-        //     Assert.ok(false);
+        //     assert.ok(false);
         // });
-        
-        // test("should throw CryptoException when value is empty string", async () =>
+
+        // await test("should throw CryptoException when value is empty string", async () =>
         // {
         //     try
         //     {
@@ -81,51 +82,51 @@ suite("Hash", () =>
         //     }
         //     catch (exception)
         //     {
-        //         Assert.ok(exception instanceof CryptoException);
-        //         Assert.strictEqual(exception.message, "Parameter count mismatch.");
+        //         assert.ok(exception instanceof CryptoException);
+        //         assert.strictEqual(exception.message, "Parameter count mismatch.");
         //         return;
         //     }
-        //     Assert.ok(false);
+        //     assert.ok(false);
         // });
-        
+
     });
-    
-    suite("createUsingSalt", () =>
+
+    await describe("createUsingSalt", async () =>
     {
-        test("must return a string value that is not null, empty, whitespace or same as input or salt when called with a valid input and salt", () =>
+        await test("must return a string value that is not null, empty, whitespace or same as input or salt when called with a valid input and salt", () =>
         {
             const input = "hello world";
             const salt = "salt";
             const hash = Hash.createUsingSalt(input, salt);
             // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
-            Assert.ok(hash !== null && !hash.isEmptyOrWhiteSpace());
-            Assert.notStrictEqual(hash, input);
-            Assert.notStrictEqual(hash, salt);
+            assert.ok(hash !== null && !hash.isEmptyOrWhiteSpace());
+            assert.notStrictEqual(hash, input);
+            assert.notStrictEqual(hash, salt);
         });
 
-        test("multiple invocations with the same input and salt must return the same output", () =>
+        await test("multiple invocations with the same input and salt must return the same output", () =>
         {
             const input = "hello world";
             const salt = "salt";
             const hash1 = Hash.createUsingSalt(input, salt);
             const hash2 = Hash.createUsingSalt(input, salt);
-            Assert.strictEqual(hash1, hash2);
+            assert.strictEqual(hash1, hash2);
         });
 
-        test("multiple invocations with different inputs and different salts must return different outputs", () =>
+        await test("multiple invocations with different inputs and different salts must return different outputs", () =>
         {
             const input1 = "hello world";
             const salt1 = "salt-1";
             const hash1 = Hash.createUsingSalt(input1, salt1);
-            
+
             const input2 = "goodbye world";
             const salt2 = "salt-2";
             const hash2 = Hash.createUsingSalt(input2, salt2);
-            
-            Assert.notStrictEqual(hash1, hash2);
+
+            assert.notStrictEqual(hash1, hash2);
         });
-        
-        test("multiple invocations with different inputs and the same salt must return different outputs", () =>
+
+        await test("multiple invocations with different inputs and the same salt must return different outputs", () =>
         {
             const input1 = "hello world";
             const salt1 = "salt-1";
@@ -134,10 +135,10 @@ suite("Hash", () =>
             const input2 = "goodbye world";
             const hash2 = Hash.createUsingSalt(input2, salt1);
 
-            Assert.notStrictEqual(hash1, hash2);
+            assert.notStrictEqual(hash1, hash2);
         });
-        
-        test("multiple invocations with the same input and different salts must return different outputs", () =>
+
+        await test("multiple invocations with the same input and different salts must return different outputs", () =>
         {
             const input = "hello world";
             const salt1 = "salt-1";
@@ -146,63 +147,62 @@ suite("Hash", () =>
             const salt2 = "salt-2";
             const hash2 = Hash.createUsingSalt(input, salt2);
 
-            Assert.notStrictEqual(hash1, hash2);
+            assert.notStrictEqual(hash1, hash2);
         });
-        
-        test("regex issue", () =>
+
+        await test("regex issue", () =>
         {
             let password = "YQAt3TPI7s1YXyClbQ2$&JdHOKZJ@z4!";
             password = password.trim();
 
             const createdAt = Date.now();
             const username = "defaultUser";
-            
+
             const salt = (createdAt % 2) === 0
                 ? `${username.base64Decode()}${createdAt}`
                 : `${createdAt}${username.base64Decode()}`;
 
-            return Hash.createUsingSalt(password, salt);
+            Hash.createUsingSalt(password, salt);
         });
-        
-        
-        
-        
-        
-        // test("successfully create a hash", async () =>
+
+
+
+
+        // await test("successfully create a hash", async () =>
         // {
         //     let hash = await Hash.createUsingSalt("hello world", "some-salt");
-        //     Assert.ok(hash !== null && !hash.isEmptyOrWhiteSpace());
-        //     Assert.notStrictEqual("hello world", hash);
+        //     assert.ok(hash !== null && !hash.isEmptyOrWhiteSpace());
+        //     assert.notStrictEqual("hello world", hash);
         // });
 
-        // test("successfully create a hash twice with same values and same salt", async () =>
+        // await test("successfully create a hash twice with same values and same salt", async () =>
         // {
         //     let hash1 = await Hash.createUsingSalt("hello world", "some-salt");
         //     let hash2 = await Hash.createUsingSalt("hello world", "some-salt");
-        //     Assert.ok(hash1 !== null && !hash1.isEmptyOrWhiteSpace());
-        //     Assert.ok(hash2 !== null && !hash2.isEmptyOrWhiteSpace());
-        //     Assert.strictEqual(hash1, hash2);
+        //     assert.ok(hash1 !== null && !hash1.isEmptyOrWhiteSpace());
+        //     assert.ok(hash2 !== null && !hash2.isEmptyOrWhiteSpace());
+        //     assert.strictEqual(hash1, hash2);
         // });
-        
-        // test("successfully create a hash twice with same values and different salt", async () =>
+
+        // await test("successfully create a hash twice with same values and different salt", async () =>
         // {
         //     let hash1 = await Hash.createUsingSalt("hello world", "some-salt");
         //     let hash2 = await Hash.createUsingSalt("hello world", "some-other-salt");
-        //     Assert.ok(hash1 !== null && !hash1.isEmptyOrWhiteSpace());
-        //     Assert.ok(hash2 !== null && !hash2.isEmptyOrWhiteSpace());
-        //     Assert.notStrictEqual(hash1, hash2);
+        //     assert.ok(hash1 !== null && !hash1.isEmptyOrWhiteSpace());
+        //     assert.ok(hash2 !== null && !hash2.isEmptyOrWhiteSpace());
+        //     assert.notStrictEqual(hash1, hash2);
         // });
-        
-        // test("successfully create a hash twice with different values same salt", async () =>
+
+        // await test("successfully create a hash twice with different values same salt", async () =>
         // {
         //     let hash1 = await Hash.createUsingSalt("hello world", "some-salt");
         //     let hash2 = await Hash.createUsingSalt("hello world2", "some-salt");
-        //     Assert.ok(hash1 !== null && !hash1.isEmptyOrWhiteSpace());
-        //     Assert.ok(hash2 !== null && !hash2.isEmptyOrWhiteSpace());
-        //     Assert.notStrictEqual(hash1, hash2);
+        //     assert.ok(hash1 !== null && !hash1.isEmptyOrWhiteSpace());
+        //     assert.ok(hash2 !== null && !hash2.isEmptyOrWhiteSpace());
+        //     assert.notStrictEqual(hash1, hash2);
         // });
-        
-        // test("should throw CryptoException when value is null", async () =>
+
+        // await test("should throw CryptoException when value is null", async () =>
         // {
         //     try
         //     {
@@ -210,14 +210,14 @@ suite("Hash", () =>
         //     }
         //     catch (exception)
         //     {
-        //         Assert.ok(exception instanceof CryptoException);
-        //         Assert.strictEqual(exception.message, "Parameter count mismatch.");
+        //         assert.ok(exception instanceof CryptoException);
+        //         assert.strictEqual(exception.message, "Parameter count mismatch.");
         //         return;
         //     }
-        //     Assert.ok(false);
+        //     assert.ok(false);
         // });
-        
-        // test("should throw CryptoException when value is undefined", async () =>
+
+        // await test("should throw CryptoException when value is undefined", async () =>
         // {
         //     try
         //     {
@@ -225,14 +225,14 @@ suite("Hash", () =>
         //     }
         //     catch (exception)
         //     {
-        //         Assert.ok(exception instanceof CryptoException);
-        //         Assert.strictEqual(exception.message, "Parameter count mismatch.");
+        //         assert.ok(exception instanceof CryptoException);
+        //         assert.strictEqual(exception.message, "Parameter count mismatch.");
         //         return;
         //     }
-        //     Assert.ok(false);
+        //     assert.ok(false);
         // });
-        
-        // test("should throw CryptoException when salt is null", async () =>
+
+        // await test("should throw CryptoException when salt is null", async () =>
         // {
         //     try
         //     {
@@ -240,14 +240,14 @@ suite("Hash", () =>
         //     }
         //     catch (exception)
         //     {
-        //         Assert.ok(exception instanceof CryptoException);
-        //         Assert.strictEqual(exception.message, "Parameter count mismatch.");
+        //         assert.ok(exception instanceof CryptoException);
+        //         assert.strictEqual(exception.message, "Parameter count mismatch.");
         //         return;
         //     }
-        //     Assert.ok(false);
+        //     assert.ok(false);
         // });
-        
-        // test("should throw CryptoException when salt is undefined", async () =>
+
+        // await test("should throw CryptoException when salt is undefined", async () =>
         // {
         //     try
         //     {
@@ -255,14 +255,14 @@ suite("Hash", () =>
         //     }
         //     catch (exception)
         //     {
-        //         Assert.ok(exception instanceof CryptoException);
-        //         Assert.strictEqual(exception.message, "Parameter count mismatch.");
+        //         assert.ok(exception instanceof CryptoException);
+        //         assert.strictEqual(exception.message, "Parameter count mismatch.");
         //         return;
         //     }
-        //     Assert.ok(false);
+        //     assert.ok(false);
         // });
-        
-        // test("should throw CryptoException when salt is empty string", async () =>
+
+        // await test("should throw CryptoException when salt is empty string", async () =>
         // {
         //     try
         //     {
@@ -270,14 +270,14 @@ suite("Hash", () =>
         //     }
         //     catch (exception)
         //     {
-        //         Assert.ok(exception instanceof CryptoException);
-        //         Assert.strictEqual(exception.message, "Parameter count mismatch.");
+        //         assert.ok(exception instanceof CryptoException);
+        //         assert.strictEqual(exception.message, "Parameter count mismatch.");
         //         return;
         //     }
-        //     Assert.ok(false);
+        //     assert.ok(false);
         // });
-        
-        // test("should throw CryptoException when value is empty string", async () =>
+
+        // await test("should throw CryptoException when value is empty string", async () =>
         // {
         //     try
         //     {
@@ -285,11 +285,11 @@ suite("Hash", () =>
         //     }
         //     catch (exception)
         //     {
-        //         Assert.ok(exception instanceof CryptoException);
-        //         Assert.strictEqual(exception.message, "Parameter count mismatch.");
+        //         assert.ok(exception instanceof CryptoException);
+        //         assert.strictEqual(exception.message, "Parameter count mismatch.");
         //         return;
         //     }
-        //     Assert.ok(false);
+        //     assert.ok(false);
         // });
     });
 });

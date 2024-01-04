@@ -1,11 +1,11 @@
-import { Claim } from "./claim";
-import { InvalidOperationException } from "@nivinjoseph/n-exception";
 import { given } from "@nivinjoseph/n-defensive";
-import { InvalidTokenException } from "./invalid-token-exception";
-import { AlgType } from "./alg-type";
-import { Hmac } from "./../crypto/hmac";
-// import { DigitalSignature } from "./../crypto/digital-signature";
-import { ExpiredTokenException } from "./expired-token-exception";
+import { InvalidOperationException } from "@nivinjoseph/n-exception";
+import { Hmac } from "./../crypto/hmac.js";
+import { AlgType } from "./alg-type.js";
+import { Claim } from "./claim.js";
+import { InvalidTokenException } from "./invalid-token-exception.js";
+// import { DigitalSignature } from "./../crypto/digital-signature.js";
+import { ExpiredTokenException } from "./expired-token-exception.js";
 
 
 // public
@@ -18,7 +18,7 @@ export class JsonWebToken
     private readonly _expiry: number;
     private readonly _claims: Array<Claim>;
 
-    
+
     public get issuer(): string { return this._issuer; }
     public get algType(): AlgType { return this._algType; }
     public get key(): string { return this._key; }
@@ -26,8 +26,8 @@ export class JsonWebToken
     public get expiry(): number { return this._expiry; }
     public get isExpired(): boolean { return this._expiry <= Date.now(); }
     public get claims(): ReadonlyArray<Claim> { return this._claims; }
-    
-    
+
+
     private constructor(issuer: string, algType: AlgType, key: string, isFullKey: boolean, expiry: number,
         claims: Array<Claim>)
     {
@@ -38,7 +38,7 @@ export class JsonWebToken
         given(expiry, "expiry").ensureHasValue().ensureIsNumber();
         given(claims, "claims").ensureHasValue().ensureIsArray()
             .ensure(t => t.isNotEmpty, "cannot be empty");
-        
+
         this._issuer = issuer.trim();
         this._algType = algType;
         this._key = key.trim();
@@ -46,7 +46,7 @@ export class JsonWebToken
         this._expiry = expiry;
         this._claims = [...claims];
     }
-    
+
     public static fromClaims(issuer: string, algType: AlgType, key: string, expiry: number,
         claims: Array<Claim>): JsonWebToken
     {
@@ -132,33 +132,33 @@ export class JsonWebToken
         const obj = JSON.parse(json) as object;
         return obj;
     }
-    
+
     public generateToken(): string
     {
         if (!this._isfullKey)
-            throw new InvalidOperationException("generating token using an instance created from token");    
-        
+            throw new InvalidOperationException("generating token using an instance created from token");
+
         const header: Header = {
             iss: this._issuer,
             alg: this._algType,
             exp: this._expiry
         };
-        
+
         const body: any = {};
         this._claims.forEach(t => body[t.type] = t.value);
-        
+
         const headerAndBody = this._toHex(header) + "." + this._toHex(body);
-        
+
         // let signature = this._algType === AlgType.hmac
         //     ? await Hmac.create(this._key, headerAndBody)
         //     : await DigitalSignature.sign(this._key, headerAndBody);
-        
+
         const signature = Hmac.create(this._key, headerAndBody);
-        
+
         const token = headerAndBody + "." + signature;
         return token;
     }
-    
+
     private _toHex(obj: object): string
     {
         const json = JSON.stringify(obj);

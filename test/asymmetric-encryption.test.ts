@@ -3,24 +3,24 @@
 // // import { CryptoException } from "./../src/crypto-exception";
 // import "@nivinjoseph/n-ext";
 
-// suite("AsymmetricEncryption", () =>
+// await describe("AsymmetricEncryption", () =>
 // {
-//     suite("generateKeyPair", () =>
+//     await describe("generateKeyPair", () =>
 //     { 
-//         test("should return string value that is not null, empty or whitespace", async () =>
+//         await test("should return string value that is not null, empty or whitespace", async () =>
 //         {
 //             let keyPair = await AsymmetricEncryption.generateKeyPair();
 //             Assert.ok(keyPair !== null && !keyPair.isEmptyOrWhiteSpace());
 //         });
         
-//         test("consecutive invocations must generate different values", async () =>
+//         await test("consecutive invocations must generate different values", async () =>
 //         {
 //             let keyPair1 = await AsymmetricEncryption.generateKeyPair();
 //             let keyPair2 = await AsymmetricEncryption.generateKeyPair();
 //             Assert.notStrictEqual(keyPair1, keyPair2);
 //         });
 
-//         // test("generate 3 KeyPairs", async () =>
+//         // await test("generate 3 KeyPairs", async () =>
 //         // {
 //         //     let keyPair1 = await AsymmetricEncryption.generateKeyPair();
 //         //     let keyPair2 = await AsymmetricEncryption.generateKeyPair();
@@ -34,9 +34,9 @@
 //         // });
 //     });
     
-//     suite("getPublicKey", () =>
+//     await describe("getPublicKey", () =>
 //     {
-//         test("should return a string value that is not null, empty, whitespace or same as the input when called with a valid keypair", async () =>
+//         await test("should return a string value that is not null, empty, whitespace or same as the input when called with a valid keypair", async () =>
 //         {
 //             let keyPair = await AsymmetricEncryption.generateKeyPair();
 //             let publicKey = await AsymmetricEncryption.getPublicKey(keyPair);
@@ -44,7 +44,7 @@
 //             Assert.notStrictEqual(keyPair, publicKey);
 //         });
         
-//         test("multiple invocations should return the same value for the same keypair", async () =>
+//         await test("multiple invocations should return the same value for the same keypair", async () =>
 //         {
 //             let keyPair = await AsymmetricEncryption.generateKeyPair();
 //             let publicKey1 = await AsymmetricEncryption.getPublicKey(keyPair);
@@ -52,7 +52,7 @@
 //             Assert.strictEqual(publicKey1, publicKey2);
 //         });
         
-//         test("should return different values for different keypairs", async () =>
+//         await test("should return different values for different keypairs", async () =>
 //         {
 //             let keyPair1 = await AsymmetricEncryption.generateKeyPair();
 //             let publicKey1 = await AsymmetricEncryption.getPublicKey(keyPair1);
@@ -63,7 +63,7 @@
 //             Assert.notStrictEqual(publicKey1, publicKey2);
 //         });
         
-//         // test("get 2 public keys with same key pair", async () =>
+//         // await test("get 2 public keys with same key pair", async () =>
 //         // {
 //         //     let keyPair = await AsymmetricEncryption.generateKeyPair();
 //         //     let publicKey1 = await AsymmetricEncryption.getPublicKey(keyPair);
@@ -75,7 +75,7 @@
 //         //     Assert.strictEqual(publicKey1, publicKey2);
 //         // });
         
-//         // test("throws CryptoException when key pair is null", async () =>
+//         // await test("throws CryptoException when key pair is null", async () =>
 //         // {
 //         //     try
 //         //     {
@@ -90,7 +90,7 @@
 //         //     Assert.ok(false);
 //         // });
         
-//         // test("throws CryptoException when key pair is undefined", async () =>
+//         // await test("throws CryptoException when key pair is undefined", async () =>
 //         // {
 //         //     try
 //         //     {
@@ -105,7 +105,7 @@
 //         //     Assert.ok(false);
 //         // });
         
-//         // test("throws CryptoException when key pair is empty String", async () =>
+//         // await test("throws CryptoException when key pair is empty String", async () =>
 //         // {
 //         //     try
 //         //     {
@@ -121,9 +121,9 @@
 //         // });
 //     });
     
-//     suite("encrypt", () =>
+//     await describe("encrypt", () =>
 //     {
-//         test("should return cipher text when called with a keypair and plain text value", async () =>
+//         await test("should return cipher text when called with a keypair and plain text value", async () =>
 //         {
 //             let keyPair = await AsymmetricEncryption.generateKeyPair();
 //             let value = "password";
@@ -133,7 +133,7 @@
 //             Assert.notStrictEqual(encrypted, keyPair);
 //         });
         
-//         test("should return cipher text when called with a public key and plain text value", async () =>
+//         await test("should return cipher text when called with a public key and plain text value", async () =>
 //         {
 //             let keyPair = await AsymmetricEncryption.generateKeyPair();
 //             let publicKey = await AsymmetricEncryption.getPublicKey(keyPair);
@@ -144,7 +144,7 @@
 //             Assert.notStrictEqual(encrypted, keyPair);
 //         });
         
-//         // test("encrypt a string with public Key", async () =>
+//         // await test("encrypt a string with public Key", async () =>
 //         // {
 //         //     let keyPair = await AsymmetricEncryption.generateKeyPair();
 //         //     let publicKey = await AsymmetricEncryption.getPublicKey(keyPair);
@@ -153,7 +153,7 @@
 //         //     Assert.notStrictEqual(encrypt, "password");
 //         // });
         
-//         // test("encrypt twice using the same key pair", async () =>
+//         // await test("encrypt twice using the same key pair", async () =>
 //         // {
 //         //     let keyPair = await AsymmetricEncryption.generateKeyPair();
 //         //     let encrypt1 = await AsymmetricEncryption.encrypt(keyPair, "password");
@@ -165,7 +165,7 @@
 //         //     Assert.strictEqual(encrypt2, encrypt1);
 //         // });
         
-//         // test("encrypt 2 strings using the same key pair", async () =>
+//         // await test("encrypt 2 strings using the same key pair", async () =>
 //         // {
 //         //     let keyPair = await AsymmetricEncryption.generateKeyPair();
 //         //     let encrypt1 = await AsymmetricEncryption.encrypt(keyPair, "hello world");
@@ -177,7 +177,7 @@
 //         //     Assert.notStrictEqual(encrypt2, encrypt1);
 //         // });
         
-//         // test("throws CryptoException when key pair is null", async () =>
+//         // await test("throws CryptoException when key pair is null", async () =>
 //         // {
 //         //     try
 //         //     {
@@ -192,7 +192,7 @@
 //         //     Assert.ok(false);
 //         // });
         
-//         // test("throws CryptoException when key pair is undefined", async () =>
+//         // await test("throws CryptoException when key pair is undefined", async () =>
 //         // {
 //         //     try
 //         //     {
@@ -207,7 +207,7 @@
 //         //     Assert.ok(false);
 //         // });
         
-//         // test("throws CryptoException when key pair is empty string", async () =>
+//         // await test("throws CryptoException when key pair is empty string", async () =>
 //         // {
 //         //     try
 //         //     {
@@ -222,7 +222,7 @@
 //         //     Assert.ok(false);
 //         // });
         
-//         // test("throws CryptoException when key pair is empty string", async () =>
+//         // await test("throws CryptoException when key pair is empty string", async () =>
 //         // {
 //         //     try
 //         //     {
@@ -238,7 +238,7 @@
 //         //     Assert.ok(false);
 //         // });
         
-//         // test("throws CryptoException when key pair and value are empty strings", async () =>
+//         // await test("throws CryptoException when key pair and value are empty strings", async () =>
 //         // {
 //         //     try
 //         //     {
@@ -253,7 +253,7 @@
 //         //     Assert.ok(false);
 //         // });
         
-//         // test("encrypt using public key and key pair", async () =>
+//         // await test("encrypt using public key and key pair", async () =>
 //         // {
 //         //     let keyPair = await AsymmetricEncryption.generateKeyPair();
 //         //     let encrypt1 = await AsymmetricEncryption.encrypt(keyPair, "hello world");
@@ -267,9 +267,9 @@
 //         // });
 //     });
     
-//     suite("decrypt", () =>
+//     await describe("decrypt", () =>
 //     {
-//         test("should return plain text when called with key pair and cipher text encrypted with key pair", async () =>
+//         await test("should return plain text when called with key pair and cipher text encrypted with key pair", async () =>
 //         {
 //             let keyPair = await AsymmetricEncryption.generateKeyPair();
 //             let value = "password";
@@ -278,7 +278,7 @@
 //             Assert.strictEqual(decrypted, value);
 //         });
         
-//         test("should return plain text when called with key pair and cipher text encrypted with public key of key pair", async () =>
+//         await test("should return plain text when called with key pair and cipher text encrypted with public key of key pair", async () =>
 //         {
 //             let keyPair = await AsymmetricEncryption.generateKeyPair();
 //             let publicKey = await AsymmetricEncryption.getPublicKey(keyPair);
@@ -290,7 +290,7 @@
         
         
         
-//         // test("decrypt using public key when encrypted by key pair", async () =>
+//         // await test("decrypt using public key when encrypted by key pair", async () =>
 //         // {
 //         //     let keyPair = await AsymmetricEncryption.generateKeyPair();
 //         //     let publicKey = await AsymmetricEncryption.getPublicKey(keyPair);
@@ -300,7 +300,7 @@
 //         //     Assert.strictEqual(decrypt, "password");
 //         // });
         
-//         // test("decrypt using key pair when encrypted by public key", async () =>
+//         // await test("decrypt using key pair when encrypted by public key", async () =>
 //         // {
 //         //     let keyPair = await AsymmetricEncryption.generateKeyPair();
 //         //     let publicKey = await AsymmetricEncryption.getPublicKey(keyPair);
@@ -310,7 +310,7 @@
 //         //     Assert.strictEqual(decrypt, "password");
 //         // });
         
-//         // test("decrypt using key pair when encrypted by key pair", async () =>
+//         // await test("decrypt using key pair when encrypted by key pair", async () =>
 //         // {
 //         //     let keyPair = await AsymmetricEncryption.generateKeyPair();
 //         //     let encrypt = await AsymmetricEncryption.encrypt(keyPair, "password");
@@ -318,7 +318,7 @@
 //         //     Assert.notStrictEqual(decrypt, "password");
 //         // });
         
-//         // test("decrypt using public key when encrypted by public key", async () =>
+//         // await test("decrypt using public key when encrypted by public key", async () =>
 //         // {
 //         //     let keyPair = await AsymmetricEncryption.generateKeyPair();
 //         //     let publicKey = await AsymmetricEncryption.getPublicKey(keyPair);
@@ -327,7 +327,7 @@
 //         //     Assert.notStrictEqual(decrypt, "password");
 //         // });
         
-//         // test("throws CryptoException when key is null", async () =>
+//         // await test("throws CryptoException when key is null", async () =>
 //         // {
 //         //     let keyPair = await AsymmetricEncryption.generateKeyPair();
 //         //     let encrypt = await AsymmetricEncryption.encrypt(keyPair, "password");
@@ -344,7 +344,7 @@
 //         //     Assert.ok(false);
 //         // });
         
-//         // test("throws CryptoException when key is undefined", async () =>
+//         // await test("throws CryptoException when key is undefined", async () =>
 //         // {
 //         //     let keyPair = await AsymmetricEncryption.generateKeyPair();
 //         //     let encrypt = await AsymmetricEncryption.encrypt(keyPair, "password");
@@ -361,7 +361,7 @@
 //         //     Assert.ok(false);
 //         // });
         
-//         // test("throws CryptoException when value is null", async () =>
+//         // await test("throws CryptoException when value is null", async () =>
 //         // {
 //         //     let keyPair = await AsymmetricEncryption.generateKeyPair();
 //         //     let publicKey = await AsymmetricEncryption.getPublicKey(keyPair);
@@ -378,7 +378,7 @@
 //         //     Assert.ok(false);
 //         // });
 
-//         // test("throws CryptoException when value is undefined", async () =>
+//         // await test("throws CryptoException when value is undefined", async () =>
 //         // {
 //         //     let keyPair = await AsymmetricEncryption.generateKeyPair();
 //         //     let publicKey = await AsymmetricEncryption.getPublicKey(keyPair);
@@ -395,7 +395,7 @@
 //         //     Assert.ok(false);
 //         // });
         
-//         // test("throws CryptoException when key and value is null", async () =>
+//         // await test("throws CryptoException when key and value is null", async () =>
 //         // {
 //         //     try
 //         //     {
