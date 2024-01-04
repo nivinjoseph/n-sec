@@ -6,3 +6,4 @@ export declare class InvalidTokenException extends Exception {
     get reason(): string;
     constructor(token: string, reason: string);
 }
+//# sourceMappingURL=invalid-token-exception.d.ts.map

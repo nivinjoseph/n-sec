@@ -1,0 +1,1 @@
+{"version":3,"file":"claims-identity.d.ts","sourceRoot":"","sources":["../../src/api-security/claims-identity.ts"],"names":[],"mappings":"AACA,OAAO,EAAE,KAAK,EAAE,MAAM,YAAY,CAAC;AAInC,qBAAa,cAAc;IAEvB,OAAO,CAAC,QAAQ,CAAC,OAAO,CAAe;IAGvC,IAAW,MAAM,IAAI,aAAa,CAAC,KAAK,CAAC,CAAyB;gBAG/C,MAAM,EAAE,aAAa,CAAC,KAAK,CAAC;IAQxC,QAAQ,CAAC,KAAK,EAAE,KAAK,GAAG,OAAO;CAIzC"}

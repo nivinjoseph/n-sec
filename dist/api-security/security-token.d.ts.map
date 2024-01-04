@@ -1,0 +1,1 @@
+{"version":3,"file":"security-token.d.ts","sourceRoot":"","sources":["../../src/api-security/security-token.ts"],"names":[],"mappings":"AAEA,qBAAa,aAAa;IAEtB,OAAO,CAAC,QAAQ,CAAC,OAAO,CAAS;IACjC,OAAO,CAAC,QAAQ,CAAC,MAAM,CAAS;IAGhC,IAAW,MAAM,IAAI,MAAM,CAAyB;IACpD,IAAW,KAAK,IAAI,MAAM,CAAwB;gBAG/B,MAAM,EAAE,MAAM,EAAE,KAAK,EAAE,MAAM;IAYzC,QAAQ,IAAI,MAAM;CAI5B"}

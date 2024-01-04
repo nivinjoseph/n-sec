@@ -6,3 +6,4 @@ export declare class Claim {
     constructor(type: string, value: unknown);
     equals(claim: Claim): boolean;
 }
+//# sourceMappingURL=claim.d.ts.map

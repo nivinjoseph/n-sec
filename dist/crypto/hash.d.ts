@@ -3,3 +3,4 @@ export declare class Hash {
     static create(value: string): string;
     static createUsingSalt(value: string, salt: string): string;
 }
+//# sourceMappingURL=hash.d.ts.map

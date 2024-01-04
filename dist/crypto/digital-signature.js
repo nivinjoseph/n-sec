@@ -1,8 +1,8 @@
-"use strict";
 // const ursa = require("ursa");
 // import { given } from "@nivinjoseph/n-defensive";
 // import "@nivinjoseph/n-ext";
 // import * as Crypto from "crypto";
+export {};
 // // public
 // export class DigitalSignature
 // {

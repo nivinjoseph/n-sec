@@ -1,0 +1,1 @@
+{"version":3,"file":"expired-token-exception.d.ts","sourceRoot":"","sources":["../../src/api-security/expired-token-exception.ts"],"names":[],"mappings":"AAAA,OAAO,EAAE,SAAS,EAAE,MAAM,0BAA0B,CAAC;AAKrD,qBAAa,qBAAsB,SAAQ,SAAS;IAEhD,OAAO,CAAC,QAAQ,CAAC,MAAM,CAAS;IAGhC,IAAW,KAAK,IAAI,MAAM,CAAwB;gBAG/B,KAAK,EAAE,MAAM;CAOnC"}

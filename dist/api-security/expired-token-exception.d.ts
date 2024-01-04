@@ -4,3 +4,4 @@ export declare class ExpiredTokenException extends Exception {
     get token(): string;
     constructor(token: string);
 }
+//# sourceMappingURL=expired-token-exception.d.ts.map

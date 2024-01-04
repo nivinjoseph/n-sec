@@ -1,5 +1,5 @@
-import { Claim } from "./claim";
-import { AlgType } from "./alg-type";
+import { AlgType } from "./alg-type.js";
+import { Claim } from "./claim.js";
 export declare class JsonWebToken {
     private readonly _issuer;
     private readonly _algType;
@@ -21,3 +21,4 @@ export declare class JsonWebToken {
     generateToken(): string;
     private _toHex;
 }
+//# sourceMappingURL=json-web-token.d.ts.map

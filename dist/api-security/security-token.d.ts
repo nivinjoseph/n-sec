@@ -6,3 +6,4 @@ export declare class SecurityToken {
     constructor(scheme: string, token: string);
     toString(): string;
 }
+//# sourceMappingURL=security-token.d.ts.map

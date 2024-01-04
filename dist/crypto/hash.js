@@ -1,21 +1,18 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.Hash = void 0;
-const n_defensive_1 = require("@nivinjoseph/n-defensive");
-const Crypto = require("crypto");
+import { given } from "@nivinjoseph/n-defensive";
+import { createHash } from "node:crypto";
 // public
-class Hash {
+export class Hash {
     constructor() { }
     static create(value) {
-        (0, n_defensive_1.given)(value, "value").ensureHasValue().ensureIsString();
+        given(value, "value").ensureHasValue().ensureIsString();
         value = value.trim();
-        const hash = Crypto.createHash("sha512");
+        const hash = createHash("sha512");
         hash.update(value, "utf8");
         return hash.digest("hex").toUpperCase();
     }
     static createUsingSalt(value, salt) {
-        (0, n_defensive_1.given)(value, "value").ensureHasValue().ensureIsString();
-        (0, n_defensive_1.given)(salt, "salt").ensureHasValue().ensureIsString();
+        given(value, "value").ensureHasValue().ensureIsString();
+        given(salt, "salt").ensureHasValue().ensureIsString();
         value = value.trim();
         salt = salt.trim();
         const reverse = (val) => {
@@ -31,5 +28,4 @@ class Hash {
         return Hash.create(saltedValue);
     }
 }
-exports.Hash = Hash;
 //# sourceMappingURL=hash.js.map

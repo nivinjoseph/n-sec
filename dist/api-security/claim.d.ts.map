@@ -1,0 +1,1 @@
+{"version":3,"file":"claim.d.ts","sourceRoot":"","sources":["../../src/api-security/claim.ts"],"names":[],"mappings":"AAIA,qBAAa,KAAK;IAEd,OAAO,CAAC,QAAQ,CAAC,KAAK,CAAS;IAC/B,OAAO,CAAC,QAAQ,CAAC,MAAM,CAAU;IAGjC,IAAW,IAAI,IAAI,MAAM,CAAuB;IAChD,IAAW,KAAK,IAAI,OAAO,CAAwB;gBAGhC,IAAI,EAAE,MAAM,EAAE,KAAK,EAAE,OAAO;IASxC,MAAM,CAAC,KAAK,EAAE,KAAK,GAAG,OAAO;CAWvC"}
