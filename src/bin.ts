@@ -17,6 +17,7 @@ async function executeCommand(command: SupportedCommands): Promise<void>
 
     switch (command)
     {
+        // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
         case SupportedCommands.generateSymmetricKey:
             {
                 const key = await SymmetricEncryption.generateKey();
