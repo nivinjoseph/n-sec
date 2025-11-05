@@ -10,6 +10,7 @@ const supportedCommandsString = JSON.stringify(TypeHelper.enumTypeToTuples(Suppo
 async function executeCommand(command) {
     // given(command, "command").ensureHasValue().ensureIsString();
     switch (command) {
+        // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
         case SupportedCommands.generateSymmetricKey:
             {
                 const key = await SymmetricEncryption.generateKey();
