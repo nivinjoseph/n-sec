@@ -12,10 +12,10 @@ await describe("Json Web Token ", async () =>
     await describe("Hmac", async () =>
     {
 
-        await test("should successfully create a token using hmac with one claim", async () =>
+        await test("should successfully create a token using hmac with one claim", () =>
         {
             const claim = new Claim("this_claim", "ThisValue");
-            const key = await SymmetricEncryption.generateKey();
+            const key = SymmetricEncryption.generateKey();
             const time = Date.now();
             const token = JsonWebToken.fromClaims("issuer1", 1, key, time + 10000000, [claim]).generateToken();
             const jwt = JsonWebToken.fromToken("issuer1", 1, key, token);
@@ -31,7 +31,7 @@ await describe("Json Web Token ", async () =>
         {
             const claim1 = new Claim("this_claim", "ThisValue");
             const claim2 = new Claim("that_claim", "ThatValue");
-            const key = await SymmetricEncryption.generateKey();
+            const key = SymmetricEncryption.generateKey();
             const time = Date.now();
             const token = JsonWebToken.fromClaims("issuer1", 1, key, time + 10000000, [claim1, claim2]).generateToken();
             const jwt = JsonWebToken.fromToken("issuer1", 1, key, token);
@@ -47,7 +47,7 @@ await describe("Json Web Token ", async () =>
         {
             const claim1 = new Claim("this_claim", "ThisValue");
             const claim2 = new Claim("that_claim", "ThatValue");
-            const key = await SymmetricEncryption.generateKey();
+            const key = SymmetricEncryption.generateKey();
             const time = Date.now();
             const token = JsonWebToken.fromClaims("issuer1", 1, key, time + 10000000, [claim1, claim2]).generateToken();
             const jwt = JsonWebToken.fromToken("issuer1", 1, key, token);
@@ -63,7 +63,7 @@ await describe("Json Web Token ", async () =>
         {
             const claim1 = new Claim("this_claim", "ThisValue");
             const claim2 = new Claim("that_claim", "ThatValue");
-            const key = await SymmetricEncryption.generateKey();
+            const key = SymmetricEncryption.generateKey();
             const time = Date.now();
             const token = JsonWebToken.fromClaims("issuer1", 1, key, time + 10000000, [claim1, claim2]).generateToken();
             try
@@ -83,7 +83,7 @@ await describe("Json Web Token ", async () =>
         {
             const claim1 = new Claim("this_claim", "ThisValue");
             const claim2 = new Claim("that_claim", "ThatValue");
-            const key = await SymmetricEncryption.generateKey();
+            const key = SymmetricEncryption.generateKey();
             const time = Date.now();
             const token = JsonWebToken.fromClaims("issuer1", 1, key, time, [claim1, claim2]).generateToken();
             try
@@ -125,8 +125,8 @@ await describe("Json Web Token ", async () =>
         {
             const claim1 = new Claim("this_claim", "ThisValue");
             const claim2 = new Claim("that_claim", "ThatValue");
-            const key = await SymmetricEncryption.generateKey();
-            const key2 = await SymmetricEncryption.generateKey();
+            const key = SymmetricEncryption.generateKey();
+            const key2 = SymmetricEncryption.generateKey();
             const time = Date.now();
             const token = JsonWebToken.fromClaims("issuer1", 1, key, time + 1000000, [claim1, claim2]).generateToken();
             try
@@ -146,7 +146,7 @@ await describe("Json Web Token ", async () =>
         {
             const claim1 = new Claim("this_claim", "ThisValue");
             const claim2 = new Claim("that_claim", "ThatValue");
-            const key = await SymmetricEncryption.generateKey();
+            const key = SymmetricEncryption.generateKey();
             const time = Date.now();
             let token = JsonWebToken.fromClaims("issuer1", 1, key, time + 1000000, [claim1, claim2]).generateToken();
             token = token + "someStuff";

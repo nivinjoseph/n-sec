@@ -8,9 +8,9 @@ await describe("Hmac", async () =>
 {
     await describe("create", async () =>
     {
-        await test("should return string value that is not null, empty, whitespace or same as the key or input", async () =>
+        await test("should return string value that is not null, empty, whitespace or same as the key or input", () =>
         {
-            const key = await SymmetricEncryption.generateKey();
+            const key = SymmetricEncryption.generateKey();
             const value = "hello world";
             const hmac = Hmac.create(key, value);
             // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
@@ -19,30 +19,30 @@ await describe("Hmac", async () =>
             assert.notStrictEqual(hmac, value);
         });
 
-        await test("multiple invocations with the same key and value must return the same output", async () =>
+        await test("multiple invocations with the same key and value must return the same output", () =>
         {
-            const key = await SymmetricEncryption.generateKey();
+            const key = SymmetricEncryption.generateKey();
             const value = "hello world";
             const hmac1 = Hmac.create(key, value);
             const hmac2 = Hmac.create(key, value);
             assert.strictEqual(hmac1, hmac2);
         });
 
-        await test("multiple invocations with different keys and different values must return different outputs", async () =>
+        await test("multiple invocations with different keys and different values must return different outputs", () =>
         {
-            const key1 = await SymmetricEncryption.generateKey();
+            const key1 = SymmetricEncryption.generateKey();
             const value1 = "hello world";
             const hmac1 = Hmac.create(key1, value1);
 
-            const key2 = await SymmetricEncryption.generateKey();
+            const key2 = SymmetricEncryption.generateKey();
             const value2 = "goodbye world";
             const hmac2 = Hmac.create(key2, value2);
             assert.notStrictEqual(hmac1, hmac2);
         });
 
-        await test("multiple invocations with the same key and different values must return different outputs", async () =>
+        await test("multiple invocations with the same key and different values must return different outputs", () =>
         {
-            const key = await SymmetricEncryption.generateKey();
+            const key = SymmetricEncryption.generateKey();
             const value1 = "hello world";
             const value2 = "goodbye world";
             const hmac1 = Hmac.create(key, value1);
@@ -50,10 +50,10 @@ await describe("Hmac", async () =>
             assert.notStrictEqual(hmac1, hmac2);
         });
 
-        await test("multiple invocations with different keys and the same value must return different outputs", async () =>
+        await test("multiple invocations with different keys and the same value must return different outputs", () =>
         {
-            const key1 = await SymmetricEncryption.generateKey();
-            const key2 = await SymmetricEncryption.generateKey();
+            const key1 = SymmetricEncryption.generateKey();
+            const key2 = SymmetricEncryption.generateKey();
             const value = "hello world";
             const hmac1 = Hmac.create(key1, value);
             const hmac2 = Hmac.create(key2, value);
