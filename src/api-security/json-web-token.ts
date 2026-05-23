@@ -1,5 +1,6 @@
 import { given } from "@nivinjoseph/n-defensive";
 import { InvalidOperationException } from "@nivinjoseph/n-exception";
+import { timingSafeEqual } from "node:crypto";
 import { Hmac } from "./../crypto/hmac.js";
 import { AlgType } from "./alg-type.js";
 import { Claim } from "./claim.js";
@@ -116,7 +117,9 @@ export class JsonWebToken
         // }    
 
         const computedSignature = Hmac.create(key, headerString + "." + bodyString);
-        if (computedSignature !== signature)
+        const expected = Buffer.from(computedSignature, "utf8");
+        const provided = Buffer.from(signature, "utf8");
+        if (expected.length !== provided.length || !timingSafeEqual(expected, provided))
             throw new InvalidTokenException(token, "signature could not be verified");
 
         const claims = new Array<Claim>();
