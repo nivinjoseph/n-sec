@@ -164,6 +164,94 @@ await describe("Hash", async () =>
 
             Hash.createUsingSalt(password, salt);
         });
+    });
+
+    await describe("createForPassword", async () =>
+    {
+        await test("must return a 128-character uppercase hex string", () =>
+        {
+            const hash = Hash.createForPassword("password", "some-salt");
+            assert.match(hash, /^[0-9A-F]{128}$/);
+        });
+
+        await test("same password and salt must produce the same output", () =>
+        {
+            const hash1 = Hash.createForPassword("password", "some-salt");
+            const hash2 = Hash.createForPassword("password", "some-salt");
+            assert.strictEqual(hash1, hash2);
+        });
+
+        await test("different passwords with the same salt must produce different outputs", () =>
+        {
+            const hash1 = Hash.createForPassword("password1", "some-salt");
+            const hash2 = Hash.createForPassword("password2", "some-salt");
+            assert.notStrictEqual(hash1, hash2);
+        });
+
+        await test("same password with different salts must produce different outputs", () =>
+        {
+            const hash1 = Hash.createForPassword("password", "salt-1");
+            const hash2 = Hash.createForPassword("password", "salt-2");
+            assert.notStrictEqual(hash1, hash2);
+        });
+
+        await test("passwords differing only in trailing whitespace must produce different outputs", () =>
+        {
+            const hash1 = Hash.createForPassword("password", "some-salt");
+            const hash2 = Hash.createForPassword("password ", "some-salt");
+            assert.notStrictEqual(hash1, hash2);
+        });
+
+        await test("passwords differing only in leading whitespace must produce different outputs", () =>
+        {
+            const hash1 = Hash.createForPassword("password", "some-salt");
+            const hash2 = Hash.createForPassword(" password", "some-salt");
+            assert.notStrictEqual(hash1, hash2);
+        });
+    });
+
+    await describe("verifyPassword", async () =>
+    {
+        await test("must return true for the same password and salt that produced the hash", () =>
+        {
+            const hash = Hash.createForPassword("password", "some-salt");
+            assert.strictEqual(Hash.verifyPassword("password", "some-salt", hash), true);
+        });
+
+        await test("must accept the hash in lowercase as well as uppercase", () =>
+        {
+            const hash = Hash.createForPassword("password", "some-salt");
+            assert.strictEqual(Hash.verifyPassword("password", "some-salt", hash.toLowerCase()), true);
+        });
+
+        await test("must return false for a wrong password", () =>
+        {
+            const hash = Hash.createForPassword("password", "some-salt");
+            assert.strictEqual(Hash.verifyPassword("wrong-password", "some-salt", hash), false);
+        });
+
+        await test("must return false for a wrong salt", () =>
+        {
+            const hash = Hash.createForPassword("password", "some-salt");
+            assert.strictEqual(Hash.verifyPassword("password", "different-salt", hash), false);
+        });
+
+        await test("must return false for a tampered hash", () =>
+        {
+            const hash = Hash.createForPassword("password", "some-salt");
+            const tampered = (hash[0] === "A" ? "B" : "A") + hash.slice(1);
+            assert.strictEqual(Hash.verifyPassword("password", "some-salt", tampered), false);
+        });
+
+        await test("must return false for a hash of the wrong length", () =>
+        {
+            assert.strictEqual(Hash.verifyPassword("password", "some-salt", "ABCD"), false);
+        });
+
+        await test("must return false for a non-hex hash", () =>
+        {
+            assert.strictEqual(Hash.verifyPassword("password", "some-salt", "Z".repeat(128)), false);
+        });
 
 
 
