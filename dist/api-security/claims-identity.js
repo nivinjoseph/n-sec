@@ -1,6 +1,7 @@
 import { given } from "@nivinjoseph/n-defensive";
 // public
 export class ClaimsIdentity {
+    _claims;
     get claims() { return this._claims; }
     constructor(claims) {
         given(claims, "claims").ensureHasValue().ensureIsArray();

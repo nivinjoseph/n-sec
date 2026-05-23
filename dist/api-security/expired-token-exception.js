@@ -2,6 +2,7 @@ import { Exception } from "@nivinjoseph/n-exception";
 import { given } from "@nivinjoseph/n-defensive";
 // public
 export class ExpiredTokenException extends Exception {
+    _token;
     get token() { return this._token; }
     constructor(token) {
         given(token, "token").ensureHasValue().ensureIsString();

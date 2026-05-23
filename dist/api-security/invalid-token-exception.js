@@ -2,6 +2,8 @@ import { Exception } from "@nivinjoseph/n-exception";
 import { given } from "@nivinjoseph/n-defensive";
 // public
 export class InvalidTokenException extends Exception {
+    _token;
+    _reason;
     get token() { return this._token; }
     get reason() { return this._reason; }
     constructor(token, reason) {

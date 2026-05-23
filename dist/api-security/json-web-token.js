@@ -1,5 +1,6 @@
 import { given } from "@nivinjoseph/n-defensive";
 import { InvalidOperationException } from "@nivinjoseph/n-exception";
+import { timingSafeEqual } from "node:crypto";
 import { Hmac } from "./../crypto/hmac.js";
 import { AlgType } from "./alg-type.js";
 import { Claim } from "./claim.js";
@@ -8,10 +9,16 @@ import { InvalidTokenException } from "./invalid-token-exception.js";
 import { ExpiredTokenException } from "./expired-token-exception.js";
 // public
 export class JsonWebToken {
+    _issuer;
+    _algType;
+    _key;
+    _isFullKey;
+    _expiry;
+    _claims;
     get issuer() { return this._issuer; }
     get algType() { return this._algType; }
     get key() { return this._key; }
-    get canGenerateToken() { return this._isfullKey; }
+    get canGenerateToken() { return this._isFullKey; }
     get expiry() { return this._expiry; }
     get isExpired() { return this._expiry <= Date.now(); }
     get claims() { return this._claims; }
@@ -26,7 +33,7 @@ export class JsonWebToken {
         this._issuer = issuer.trim();
         this._algType = algType;
         this._key = key.trim();
-        this._isfullKey = isFullKey;
+        this._isFullKey = isFullKey;
         this._expiry = expiry;
         this._claims = [...claims];
     }
@@ -47,8 +54,21 @@ export class JsonWebToken {
         const headerString = tokenSplitted[0];
         const bodyString = tokenSplitted[1];
         const signature = tokenSplitted[2];
-        const header = JsonWebToken._toObject(headerString);
-        const body = JsonWebToken._toObject(bodyString);
+        let parsedHeader;
+        let parsedBody;
+        try {
+            parsedHeader = JsonWebToken._toObject(headerString);
+            parsedBody = JsonWebToken._toObject(bodyString);
+        }
+        catch {
+            throw new InvalidTokenException(token, "header or body could not be parsed");
+        }
+        if (parsedHeader == null || typeof parsedHeader !== "object" || Array.isArray(parsedHeader))
+            throw new InvalidTokenException(token, "header is not an object");
+        if (parsedBody == null || typeof parsedBody !== "object" || Array.isArray(parsedBody))
+            throw new InvalidTokenException(token, "body is not an object");
+        const header = parsedHeader;
+        const body = parsedBody;
         // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
         if (header.iss === undefined || header.iss === null)
             throw new InvalidTokenException(token, "iss was not present");
@@ -80,20 +100,25 @@ export class JsonWebToken {
         //         throw new InvalidTokenException(token, "signature could not be verified");  
         // }    
         const computedSignature = Hmac.create(key, headerString + "." + bodyString);
-        if (computedSignature !== signature)
+        const expected = Buffer.from(computedSignature, "utf8");
+        const provided = Buffer.from(signature, "utf8");
+        if (expected.length !== provided.length || !timingSafeEqual(expected, provided))
             throw new InvalidTokenException(token, "signature could not be verified");
+        const invalidBodyKeys = new Set(["__proto__", "constructor", "prototype"]);
         const claims = new Array();
-        for (const item in body)
-            claims.push(new Claim(item, body[item]));
+        for (const [type, value] of Object.entries(body)) {
+            if (invalidBodyKeys.has(type))
+                throw new InvalidTokenException(token, `body contains invalid key '${type}'`);
+            claims.push(new Claim(type, value));
+        }
         return new JsonWebToken(issuer, algType, key, false, header.exp, claims);
     }
     static _toObject(hex) {
         const json = Buffer.from(hex.toLowerCase(), "hex").toString("utf8");
-        const obj = JSON.parse(json);
-        return obj;
+        return JSON.parse(json);
     }
     generateToken() {
-        if (!this._isfullKey)
+        if (!this._isFullKey)
             throw new InvalidOperationException("generating token using an instance created from token");
         const header = {
             iss: this._issuer,

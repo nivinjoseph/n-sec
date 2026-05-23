@@ -1,6 +1,8 @@
 import { given } from "@nivinjoseph/n-defensive";
 // public
 export class Claim {
+    _type;
+    _value;
     get type() { return this._type; }
     get value() { return this._value; }
     constructor(type, value) {

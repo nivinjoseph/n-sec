@@ -239,6 +239,7 @@ await describe("Hash", async () =>
         await test("must return false for a tampered hash", () =>
         {
             const hash = Hash.createForPassword("password", "some-salt");
+            // eslint-disable-next-line @typescript-eslint/prefer-string-starts-ends-with
             const tampered = (hash[0] === "A" ? "B" : "A") + hash.slice(1);
             assert.strictEqual(Hash.verifyPassword("password", "some-salt", tampered), false);
         });

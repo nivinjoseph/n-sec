@@ -13,7 +13,7 @@ async function executeCommand(command) {
         // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
         case SupportedCommands.generateSymmetricKey:
             {
-                const key = await SymmetricEncryption.generateKey();
+                const key = SymmetricEncryption.generateKey();
                 console.log("SYMMETRIC KEY => ", key);
                 break;
             }

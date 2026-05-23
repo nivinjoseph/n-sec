@@ -1,5 +1,7 @@
 import { given } from "@nivinjoseph/n-defensive";
 export class SecurityToken {
+    _scheme;
+    _token;
     get scheme() { return this._scheme; }
     get token() { return this._token; }
     constructor(scheme, token) {
