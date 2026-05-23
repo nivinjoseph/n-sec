@@ -15,7 +15,7 @@ export class JsonWebToken
     private readonly _issuer: string;
     private readonly _algType: AlgType;
     private readonly _key: string;
-    private readonly _isfullKey: boolean;
+    private readonly _isFullKey: boolean;
     private readonly _expiry: number;
     private readonly _claims: Array<Claim>;
 
@@ -23,7 +23,7 @@ export class JsonWebToken
     public get issuer(): string { return this._issuer; }
     public get algType(): AlgType { return this._algType; }
     public get key(): string { return this._key; }
-    public get canGenerateToken(): boolean { return this._isfullKey; }
+    public get canGenerateToken(): boolean { return this._isFullKey; }
     public get expiry(): number { return this._expiry; }
     public get isExpired(): boolean { return this._expiry <= Date.now(); }
     public get claims(): ReadonlyArray<Claim> { return this._claims; }
@@ -43,7 +43,7 @@ export class JsonWebToken
         this._issuer = issuer.trim();
         this._algType = algType;
         this._key = key.trim();
-        this._isfullKey = isFullKey;
+        this._isFullKey = isFullKey;
         this._expiry = expiry;
         this._claims = [...claims];
     }
@@ -73,8 +73,26 @@ export class JsonWebToken
         const bodyString = tokenSplitted[1];
         const signature = tokenSplitted[2];
 
-        const header: Header = JsonWebToken._toObject(headerString) as Header;
-        const body: any = JsonWebToken._toObject(bodyString);
+        let parsedHeader: unknown;
+        let parsedBody: unknown;
+        try
+        {
+            parsedHeader = JsonWebToken._toObject(headerString);
+            parsedBody = JsonWebToken._toObject(bodyString);
+        }
+        catch
+        {
+            throw new InvalidTokenException(token, "header or body could not be parsed");
+        }
+
+        if (parsedHeader == null || typeof parsedHeader !== "object" || Array.isArray(parsedHeader))
+            throw new InvalidTokenException(token, "header is not an object");
+
+        if (parsedBody == null || typeof parsedBody !== "object" || Array.isArray(parsedBody))
+            throw new InvalidTokenException(token, "body is not an object");
+
+        const header = parsedHeader as Header;
+        const body = parsedBody as Record<string, unknown>;
 
         // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
         if (header.iss === undefined || header.iss === null)
@@ -122,23 +140,27 @@ export class JsonWebToken
         if (expected.length !== provided.length || !timingSafeEqual(expected, provided))
             throw new InvalidTokenException(token, "signature could not be verified");
 
+        const invalidBodyKeys = new Set(["__proto__", "constructor", "prototype"]);
         const claims = new Array<Claim>();
-        for (const item in body)
-            claims.push(new Claim(item, body[item]));
+        for (const [type, value] of Object.entries(body))
+        {
+            if (invalidBodyKeys.has(type))
+                throw new InvalidTokenException(token, `body contains invalid key '${type}'`);
+            claims.push(new Claim(type, value));
+        }
 
         return new JsonWebToken(issuer, algType, key, false, header.exp, claims);
     }
 
-    private static _toObject(hex: string): object
+    private static _toObject(hex: string): unknown
     {
         const json = Buffer.from(hex.toLowerCase(), "hex").toString("utf8");
-        const obj = JSON.parse(json) as object;
-        return obj;
+        return JSON.parse(json);
     }
 
     public generateToken(): string
     {
-        if (!this._isfullKey)
+        if (!this._isFullKey)
             throw new InvalidOperationException("generating token using an instance created from token");
 
         const header: Header = {

@@ -2,9 +2,18 @@ import { describe, test } from "node:test";
 import assert from "node:assert";
 import { JsonWebToken } from "./../src/api-security/json-web-token.js";
 import { Claim } from "../src/api-security/claim.js";
-import { SymmetricEncryption } from "../src/index.js";
+import { Hmac, SymmetricEncryption } from "../src/index.js";
 import { InvalidTokenException } from "../src/api-security/invalid-token-exception.js";
 import { ExpiredTokenException } from "../src/api-security/expired-token-exception.js";
+
+
+function buildToken(key: string, headerJson: string, bodyJson: string): string
+{
+    const headerHex = Buffer.from(headerJson, "utf8").toString("hex").toUpperCase();
+    const bodyHex = Buffer.from(bodyJson, "utf8").toString("hex").toUpperCase();
+    const signature = Hmac.create(key, `${headerHex}.${bodyHex}`);
+    return `${headerHex}.${bodyHex}.${signature}`;
+}
 
 
 await describe("Json Web Token ", async () =>
@@ -158,6 +167,63 @@ await describe("Json Web Token ", async () =>
             {
                 assert.ok(exp instanceof InvalidTokenException);
                 assert.equal(exp.message, `Token '${token}' is invalid because signature could not be verified.`);
+                return;
+            }
+            assert.ok(false);
+        });
+
+        await test("should throw an exception when body contains '__proto__' as a claim type", () =>
+        {
+            const key = SymmetricEncryption.generateKey();
+            const headerJson = JSON.stringify({ iss: "issuer1", alg: 1, exp: Date.now() + 10000000 });
+            const bodyJson = `{"__proto__":"evil"}`;
+            const token = buildToken(key, headerJson, bodyJson);
+            try
+            {
+                JsonWebToken.fromToken("issuer1", 1, key, token);
+            }
+            catch (exp)
+            {
+                assert.ok(exp instanceof InvalidTokenException);
+                assert.equal(exp.message, `Token '${token}' is invalid because body contains invalid key '__proto__'.`);
+                return;
+            }
+            assert.ok(false);
+        });
+
+        await test("should throw an exception when body contains 'constructor' as a claim type", () =>
+        {
+            const key = SymmetricEncryption.generateKey();
+            const headerJson = JSON.stringify({ iss: "issuer1", alg: 1, exp: Date.now() + 10000000 });
+            const bodyJson = `{"constructor":"evil"}`;
+            const token = buildToken(key, headerJson, bodyJson);
+            try
+            {
+                JsonWebToken.fromToken("issuer1", 1, key, token);
+            }
+            catch (exp)
+            {
+                assert.ok(exp instanceof InvalidTokenException);
+                assert.equal(exp.message, `Token '${token}' is invalid because body contains invalid key 'constructor'.`);
+                return;
+            }
+            assert.ok(false);
+        });
+
+        await test("should throw an exception when body contains 'prototype' as a claim type", () =>
+        {
+            const key = SymmetricEncryption.generateKey();
+            const headerJson = JSON.stringify({ iss: "issuer1", alg: 1, exp: Date.now() + 10000000 });
+            const bodyJson = `{"prototype":"evil"}`;
+            const token = buildToken(key, headerJson, bodyJson);
+            try
+            {
+                JsonWebToken.fromToken("issuer1", 1, key, token);
+            }
+            catch (exp)
+            {
+                assert.ok(exp instanceof InvalidTokenException);
+                assert.equal(exp.message, `Token '${token}' is invalid because body contains invalid key 'prototype'.`);
                 return;
             }
             assert.ok(false);
