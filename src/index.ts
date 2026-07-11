@@ -2,6 +2,7 @@ import "@nivinjoseph/n-ext";
 
 import { Hash } from "./crypto/hash.js";
 import { Hmac } from "./crypto/hmac.js";
+import { CryptoUtils } from "./crypto/crypto-utils.js";
 import { SymmetricEncryption } from "./crypto/symmetric-encryption.js";
 // import { DigitalSignature } from "./crypto/digital-signature.js";
 // import { AsymmetricEncryption } from "./crypto/asymmetric-encryption.js";
@@ -21,5 +22,5 @@ export
 
     AlgType, Claim, ClaimsIdentity,
     // DigitalSignature, AsymmetricEncryption,
-    CryptoException, ExpiredTokenException, Hash, Hmac, InvalidTokenException, JsonWebToken, SecurityToken, SymmetricEncryption
+    CryptoException, CryptoUtils, ExpiredTokenException, Hash, Hmac, InvalidTokenException, JsonWebToken, SecurityToken, SymmetricEncryption
 };
